@@ -15,6 +15,7 @@ private:
     int size;
     Node* first;
     Node* last;
+
 public:
     SingleLinkedList();
     SingleLinkedList(const SingleLinkedList&) = delete;
