@@ -39,6 +39,18 @@ int main()
     linkedList.addLast(10);
     linkedList.addLast(20);
     linkedList.addFirst(5);
+    std::cout << "Before removing node 10:\n" << linkedList;
+    linkedList.remove(10);
+    std::cout << "After removing node 10:\n" << linkedList;
+    linkedList.remove(5);
+    std::cout << "After removing node 5:\n" << linkedList;
+    linkedList.remove(20);
+    std::cout << "After removing node 20:\n" << linkedList;
+    std::cout << '\n';
+
+    linkedList.addLast(10);
+    linkedList.addLast(20);
+    linkedList.addFirst(5);
     auto int_arr = linkedList.toArray();
     std::cout << "To array:\n";
     for (auto idx = 0; idx < linkedList.getSize(); ++idx) {

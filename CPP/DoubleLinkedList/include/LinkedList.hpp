@@ -1,12 +1,26 @@
 #include <iostream>
 #include <memory>
+#include <limits>
+#include <optional>
+
+const int DEFAULT_NODE_VALUE = std::numeric_limits<int>::lowest();
 
 struct Node {
     int value;
     Node* prev;
     Node* next;
-    Node(const int value) {
+    
+    Node() {
+        this->value = DEFAULT_NODE_VALUE;
+        resetLinks();
+    }
+
+    Node(const int value) : Node() {
         this->value = value;
+    }
+
+    void resetLinks() {
+        prev = next = nullptr;
     }
 };
 
@@ -28,8 +42,9 @@ public:
     int getSize() const {
         return size;
     }
-    void removeFirst();
-    void removeLast();
+    std::optional<Node> removeFirst();
+    std::optional<Node> removeLast();
+    std::optional<Node> remove(const int);
     std::unique_ptr<int[]> toArray() const;
     int getKthNodeFromTheEnd(const int) const;
     void reverse();
