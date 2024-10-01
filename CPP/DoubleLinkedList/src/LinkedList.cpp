@@ -19,12 +19,39 @@ bool LinkedList::isEmpty() const
     return (size == 0);
 }
 
+std::optional<Node> LinkedList::deleteNode(Node* node)
+{
+    if (node == nullptr) {
+        return std::nullopt;
+    }
+
+    auto previous = node->prev;
+    auto next = node->next;
+    if (previous != nullptr)
+    {
+        previous->next = next;
+    }
+    if (next != nullptr)
+    {
+        next->prev = previous;
+    }
+    node->resetLinks();
+    auto del_node = *node;
+    delete node;
+    --size;
+
+    return std::make_optional<Node>(del_node);
+}
+
 void LinkedList::addLast(const int value)
 {
-    Node* node = new Node(value);
-    if (isEmpty()) {
+    Node *node = new Node(value);
+    if (isEmpty())
+    {
         first = last = node;
-    } else {
+    }
+    else
+    {
         last->next = node;
         node->prev = last;
         last = node;
@@ -34,10 +61,13 @@ void LinkedList::addLast(const int value)
 
 void LinkedList::addFirst(const int value)
 {
-    Node* node = new Node(value);
-    if (isEmpty()) {
+    Node *node = new Node(value);
+    if (isEmpty())
+    {
         first = last = node;
-    } else {
+    }
+    else
+    {
         node->next = first;
         first->prev = node;
         first = node;
@@ -45,41 +75,50 @@ void LinkedList::addFirst(const int value)
     ++size;
 }
 
-void LinkedList::add(const int index, const int value)
+void LinkedList::addAt(const int index, const int value)
 {
-    if (index < 0) {
+    if (index < 0)
+    {
         throw std::invalid_argument("Invalid index: " + std::to_string(index) + '\n');
     }
-    else if (index > size) {
-        throw std::invalid_argument("Invalid index: " + std::to_string(index) + ", greater than list size: " + std::to_string(size) + '\n');
+    else if (index > size)
+    {
+        throw std::invalid_argument("Invalid index: " + std::to_string(index) + ", greater than list size: " + std::to_string(size) + '\n'); 
     }
-    if (index == 0) {
+    if (index == 0)
+    {
         addFirst(value);
     }
-    else if (index == size) {
+    else if (index == size)
+    {
         addLast(value);
     }
-    else {
+    else
+    {
         Node *node = new Node(value);
         unsigned idx = 0;
-        Node* current = nullptr;
-        if (index <= size / 2) {
+        Node *current = nullptr;
+        if (index <= size / 2)
+        {
             current = first;
             while (current != nullptr && idx < index)
             {
                 current = current->next;
                 ++idx;
             }
-        } else {
-            idx = size-1;
+        }
+        else
+        {
+            idx = size - 1;
             current = last;
             while (current != nullptr && idx > index)
             {
                 current = current->prev;
                 --idx;
-            }            
+            }
         }
-        if (current == nullptr) {
+        if (current == nullptr)
+        {
             delete node;
             throw std::bad_variant_access();
         }
@@ -96,7 +135,8 @@ int LinkedList::indexOf(const int value) const
 {
     unsigned index = 0;
     auto current = first;
-    while (current != nullptr && current->value != value) {
+    while (current != nullptr && current->value != value)
+    {
         current = current->next;
         ++index;
     }
@@ -111,19 +151,23 @@ bool LinkedList::contains(const int value) const
 
 std::optional<Node> LinkedList::removeFirst()
 {
-    if (isEmpty()) {
+    if (isEmpty())
+    {
         std::cout << "This list is empty, unable to remove the first item\n";
         return std::nullopt;
     }
     const auto first_value = first->value;
     Node node;
-    if (first == last) {
+    if (first == last)
+    {
         first->resetLinks();
         node = *first;
         delete first;
         first = last = nullptr;
         std::cout << "First item: " << first_value << " deleted, the list become empty\n";
-    } else {
+    }
+    else
+    {
         auto second_node = first->next;
         second_node->prev = nullptr;
         first->resetLinks();
@@ -133,24 +177,29 @@ std::optional<Node> LinkedList::removeFirst()
         std::cout << "First item: " << first_value << " deleted\n";
     }
     --size;
+
     return std::make_optional<Node>(node);
 }
 
 std::optional<Node> LinkedList::removeLast()
 {
-    if (isEmpty()) {
+    if (isEmpty())
+    {
         std::cout << "This list is empty, unable to remove the last item\n";
         return std::nullopt;
     }
     const auto last_value = last->value;
     Node node;
-    if (first == last) {
+    if (first == last)
+    {
         last->resetLinks();
         node = *last;
         delete last;
         first = last = nullptr;
         std::cout << "Last item: " << last_value << " deleted, the list become empty\n";
-    } else {
+    }
+    else
+    {
         auto previous = last->prev;
         previous->next = nullptr;
         last->resetLinks();
@@ -160,44 +209,85 @@ std::optional<Node> LinkedList::removeLast()
         std::cout << "Last item: " << last_value << " deleted\n";
     }
     --size;
+    
     return std::make_optional<Node>(node);
 }
 
-std::optional<Node> LinkedList::remove(const int value) {
-    if (isEmpty()) {
+std::optional<Node> LinkedList::remove(const int value)
+{
+    if (isEmpty())
+    {
         std::cout << "This list is empty, unable to remove node: " << value << '\n';
         return std::nullopt;
     }
-    if (first->value == value) {
+    if (first->value == value)
+    {
         return removeFirst();
     }
     auto current = first;
-    while (current != nullptr && current->value != value) {
+    while (current != last && current->value != value)
+    {
         current = current->next;
     }
-    if (current == last) {
+    if (current == last)
+    {
         return removeLast();
     }
-    if (current != nullptr) {
-        auto previous = current->prev;
-        auto next = current->next;
-        previous->next = next;
-        next->prev = previous;
-        current->resetLinks();
-        auto node = *current;
-        delete current;
-        --size;
-        std::cout << "Node: " << node.value << " deleted\n";
-        return std::make_optional<Node>(node);
+    const auto node_opt = deleteNode(current);
+    (node_opt.has_value()) ? std::cout << "Node: " << node_opt.value().value << " deleted\n" : std::cout << "Unable to delete node: " << value << '\n';
+
+    return node_opt;
+}
+
+std::optional<Node> LinkedList::removeAt(const int index)
+{
+    if (isEmpty())
+    {
+        std::cout << "This list is empty, unable to remove node at position: " << index << '\n';
+        return std::nullopt;
     }
-    return std::nullopt;
+    if (index == 0)
+    {
+        return removeFirst();
+    }
+    if (index == size - 1)
+    {
+        return removeLast();
+    }
+    Node *current = nullptr;
+    unsigned idx = 0;
+    if (index <= size / 2)
+    {
+        current = first;
+        idx = 0;
+        while (current != last && idx < index)
+        {
+            current = current->next;
+            ++idx;
+        }
+    }
+    else
+    {
+        current = last;
+        idx = size - 1;
+        while (current != first && idx > index)
+        {
+            current = current->prev;
+            --idx;
+        }
+    }
+    const auto node_opt = deleteNode(current);
+    (node_opt.has_value()) ? std::cout << "Node: " << node_opt.value().value << " at position: " << index << " deleted\n" : std::cout << "Unable to delete node at position: " << index << '\n';
+
+    return node_opt;
 }
 
 std::unique_ptr<int[]> LinkedList::toArray() const
 {
     std::unique_ptr<int[]> int_arr = std::make_unique<int[]>(size);
     unsigned idx = 0;
-    for (auto current = first; current != nullptr; current = current->next) {
+    for (auto current = first; current != nullptr; current = current->next)
+    {
         int_arr[idx++] = current->value;
     }
     return int_arr;
@@ -205,17 +295,21 @@ std::unique_ptr<int[]> LinkedList::toArray() const
 
 int LinkedList::getKthNodeFromTheEnd(const int k) const
 {
-    if (k < 1 || isEmpty()) {
+    if (k < 1 || isEmpty())
+    {
         return -1;
     }
-    if (k == 1) {
+    if (k == 1)
+    {
         return last->value;
     }
     auto current = last;
-    for (auto diff = k-1; diff >= 1 && current != nullptr; --diff) {
+    for (auto diff = k - 1; diff >= 1 && current != nullptr; --diff)
+    {
         current = current->prev;
     }
-    if (current == nullptr) {
+    if (current == nullptr)
+    {
         return -1;
     }
 
@@ -224,16 +318,19 @@ int LinkedList::getKthNodeFromTheEnd(const int k) const
 
 void LinkedList::reverse()
 {
-    if (isEmpty() || first == last) {
+    if (isEmpty() || first == last)
+    {
         return;
     }
     auto current = last;
     auto previous = current->prev;
-    while (current != nullptr) {
+    while (current != nullptr)
+    {
         current->prev = current->next;
         current->next = previous;
         current = previous;
-        if (previous != nullptr) {
+        if (previous != nullptr)
+        {
             previous = previous->prev;
         }
     }
@@ -245,14 +342,17 @@ void LinkedList::reverse()
 void LinkedList::clear()
 {
     unsigned count = 0;
-    if (!isEmpty()) {
+    if (!isEmpty())
+    {
         auto current = first;
         auto next = current->next;
-        while (current != nullptr) {
+        while (current != nullptr)
+        {
             current->prev = current->next = nullptr;
             delete current;
             current = next;
-            if (next != nullptr) {
+            if (next != nullptr)
+            {
                 next = current->next;
             }
             ++count;
