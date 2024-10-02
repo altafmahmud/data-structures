@@ -1,6 +1,7 @@
 #include <iostream>
 #include <memory>
 #include <limits>
+#include <optional>
 
 constexpr int DEFAULT_NODE_VALUE = std::numeric_limits<int>::lowest();
 
@@ -46,8 +47,8 @@ public:
     {
         return size;
     }
-    void removeFirst();
-    void removeLast();
+    std::optional<Node> removeFirst();
+    std::optional<Node> removeLast();
     std::unique_ptr<int[]> toArray() const;
     int getKthNodeFromTheEnd(const int) const;
     void reverse();
