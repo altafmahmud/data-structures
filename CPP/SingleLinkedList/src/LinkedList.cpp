@@ -19,11 +19,14 @@ bool LinkedList::isEmpty() const
 
 void LinkedList::addLast(const int value)
 {
-    Node* node = new Node(value);
+    Node *node = new Node(value);
     node->next = nullptr;
-    if (isEmpty()) {
+    if (isEmpty())
+    {
         first = last = node;
-    } else {
+    }
+    else
+    {
         last->next = node;
         last = node;
     }
@@ -32,31 +35,39 @@ void LinkedList::addLast(const int value)
 
 void LinkedList::addFirst(const int value)
 {
-    Node* node = new Node(value);
-    if (isEmpty()) {
+    Node *node = new Node(value);
+    if (isEmpty())
+    {
         node->next = nullptr;
         first = last = node;
-    } else {
+    }
+    else
+    {
         node->next = first;
         first = node;
     }
     ++size;
 }
 
-bool LinkedList::addAt(const int index, const int value) {
-    if (index < 0) {
+bool LinkedList::addAt(const int index, const int value)
+{
+    if (index < 0)
+    {
         std::cerr << "Invalid argument for index: " << index << '\n';
         return false;
     }
-    if (index > size) {
+    if (index > size)
+    {
         std::cerr << "Invalid argument for index: " << index << ", greater than size: " << size << '\n';
-        return false;        
+        return false;
     }
-    if (index == 0) {
+    if (index == 0)
+    {
         addFirst(value);
         return true;
     }
-    if (index == size) {
+    if (index == size)
+    {
         addLast(value);
         return true;
     }
@@ -64,7 +75,8 @@ bool LinkedList::addAt(const int index, const int value) {
     auto previous = first;
     auto current = first->next;
     unsigned idx = 1;
-    while (idx < index && current != last) {
+    while (idx < index && current != last)
+    {
         previous = current;
         current = current->next;
         ++idx;
@@ -73,7 +85,7 @@ bool LinkedList::addAt(const int index, const int value) {
     previous->next = node;
     ++size;
     std::cout << "Node: " << value << " added at position: " << index << '\n';
-    
+
     return true;
 }
 
@@ -81,7 +93,8 @@ int LinkedList::indexOf(const int value) const
 {
     unsigned index = 0;
     auto current = first;
-    while (current != nullptr && current->value != value) {
+    while (current != nullptr && current->value != value)
+    {
         current = current->next;
         ++index;
     }
@@ -96,12 +109,14 @@ bool LinkedList::contains(const int value) const
 
 void LinkedList::removeFirst()
 {
-    if (isEmpty()) {
+    if (isEmpty())
+    {
         std::cout << "This list is empty, unable to remove the first item\n";
         return;
     }
     const auto first_item = first->value;
-    if (first == last) {
+    if (first == last)
+    {
         delete first;
         first = last = nullptr;
         --size;
@@ -118,12 +133,14 @@ void LinkedList::removeFirst()
 
 void LinkedList::removeLast()
 {
-    if (isEmpty()) {
+    if (isEmpty())
+    {
         std::cout << "This list is empty, unable to remove the last item\n";
         return;
     }
     const auto last_item = last->value;
-    if (first == last) {
+    if (first == last)
+    {
         delete last;
         first = last = nullptr;
         --size;
@@ -132,7 +149,8 @@ void LinkedList::removeLast()
     }
     auto previous = first;
     auto current = first->next;
-    while (current != last) {
+    while (current != last)
+    {
         previous = current;
         current = current->next;
     }
@@ -147,7 +165,8 @@ std::unique_ptr<int[]> LinkedList::toArray() const
 {
     std::unique_ptr<int[]> int_arr = std::make_unique<int[]>(size);
     unsigned idx = 0;
-    for (auto current = first; current != nullptr; current = current->next) {
+    for (auto current = first; current != nullptr; current = current->next)
+    {
         int_arr[idx++] = current->value;
     }
     return int_arr;
@@ -155,35 +174,43 @@ std::unique_ptr<int[]> LinkedList::toArray() const
 
 int LinkedList::getKthNodeFromTheEnd(const int k) const
 {
-    if (k < 1 || isEmpty()) {
+    if (k < 1 || isEmpty())
+    {
         return -1;
     }
-    if (k == 1) {
+    if (k == 1)
+    {
         return last->value;
     }
     auto previous = first;
     auto current = previous;
-    for (auto diff = k-1; diff > 0 && current != nullptr; --diff) {
+    for (auto diff = k - 1; diff > 0 && current != nullptr; --diff)
+    {
         current = current->next;
     }
-    if (current == nullptr) {
+    if (current == nullptr)
+    {
         return -1;
     }
-    while (current != last) {
+    while (current != last)
+    {
         current = current->next;
         previous = previous->next;
     }
+    
     return previous->value;
 }
 
 void LinkedList::reverse()
 {
-    if (isEmpty()) {
+    if (isEmpty())
+    {
         return;
     }
     auto previous = first;
     auto current = previous->next;
-    while (current != nullptr) {
+    while (current != nullptr)
+    {
         auto next = current->next;
         current->next = previous;
         previous = current;
@@ -197,15 +224,18 @@ void LinkedList::reverse()
 void LinkedList::clear()
 {
     unsigned count = 0;
-    if (first != nullptr) {
+    if (first != nullptr)
+    {
         auto current = first;
         auto next = current->next;
-        while (current != nullptr) {
+        while (current != nullptr)
+        {
             current->next = nullptr;
             delete current;
             current = nullptr;
             current = next;
-            if (next != nullptr) {
+            if (next != nullptr)
+            {
                 next = current->next;
             }
             ++count;

@@ -4,29 +4,34 @@
 
 constexpr int DEFAULT_NODE_VALUE = std::numeric_limits<int>::lowest();
 
-struct Node {
+struct Node
+{
     int value;
-    Node* next;
-    
-    Node() {
+    Node *next;
+
+    Node()
+    {
         value = DEFAULT_NODE_VALUE;
         next = nullptr;
     }
 
-    Node(const int value): Node() {
+    Node(const int value) : Node()
+    {
         this->value = value;
     }
 };
 
-class LinkedList {
+class LinkedList
+{
 private:
     bool isEmpty() const;
     int size;
-    Node* first;
-    Node* last;
+    Node *first;
+    Node *last;
+
 public:
     LinkedList();
-    LinkedList(const LinkedList&) = delete;
+    LinkedList(const LinkedList &) = delete;
     ~LinkedList();
 
     void addLast(const int);
@@ -34,7 +39,8 @@ public:
     bool addAt(const int, const int);
     int indexOf(const int) const;
     bool contains(const int) const;
-    int getSize() const {
+    int getSize() const
+    {
         return size;
     }
     void removeFirst();
@@ -44,12 +50,13 @@ public:
     void reverse();
     void clear();
 
-    friend std::ostream& operator<<(std::ostream&, const LinkedList&);
+    friend std::ostream &operator<<(std::ostream &, const LinkedList &);
 };
 
-inline std::ostream& operator<<(std::ostream& os, const LinkedList& linkedList)
+inline std::ostream &operator<<(std::ostream &os, const LinkedList &linkedList)
 {
-    for (auto current = linkedList.first; current != nullptr; current = current->next) {
+    for (auto current = linkedList.first; current != nullptr; current = current->next)
+    {
         os << current->value << '\n';
     }
 
