@@ -24,7 +24,10 @@ struct Node
 class LinkedList
 {
 private:
-    bool isEmpty() const;
+    constexpr bool LinkedList::isEmpty() const
+    {
+        return size == 0;
+    }
     int size;
     Node *first;
     Node *last;
@@ -39,7 +42,7 @@ public:
     bool addAt(const int, const int);
     int indexOf(const int) const;
     bool contains(const int) const;
-    int getSize() const
+    constexpr int getSize() const
     {
         return size;
     }
