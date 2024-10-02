@@ -58,6 +58,7 @@ public:
     std::unique_ptr<int[]> toArray() const;
     int getKthNodeFromTheEnd(const int) const;
     void reverse();
+    const std::string toString() const;
     void clear();
 
     friend std::ostream &operator<<(std::ostream &, const LinkedList &);

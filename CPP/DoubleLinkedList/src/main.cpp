@@ -113,6 +113,10 @@ int main()
     linkedList.reverse();
     std::cout << "Re-reversed linked list:\n" << linkedList << '\n';
     std::cout << value << "th node: " << linkedList.getKthNodeFromTheEnd(value) << '\n';
+    std::cout << '\n';
+
+    std::cout << "List to string:\n" << linkedList.toString() << '\n';
+    std::cout << '\n';
 
     return 0;
 }

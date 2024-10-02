@@ -339,6 +339,19 @@ void LinkedList::reverse()
     last = current;
 }
 
+const std::string LinkedList::toString() const {
+    std::string list_str("[");
+    for (auto node = first; node != nullptr; node = node->next) {
+        list_str += std::to_string(node->value);
+        if (node->next != nullptr) {
+            list_str += " ";
+        }
+    }
+    list_str += "]";
+    
+    return list_str;
+}
+
 void LinkedList::clear()
 {
     unsigned count = 0;
