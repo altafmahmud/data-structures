@@ -43,6 +43,40 @@ void LinkedList::addFirst(const int value)
     ++size;
 }
 
+bool LinkedList::addAt(const int index, const int value) {
+    if (index < 0) {
+        std::cerr << "Invalid argument for index: " << index << '\n';
+        return false;
+    }
+    if (index > size) {
+        std::cerr << "Invalid argument for index: " << index << ", greater than size: " << size << '\n';
+        return false;        
+    }
+    if (index == 0) {
+        addFirst(value);
+        return true;
+    }
+    if (index == size) {
+        addLast(value);
+        return true;
+    }
+    auto node = new Node(value);
+    auto previous = first;
+    auto current = first->next;
+    unsigned idx = 1;
+    while (idx < index && current != last) {
+        previous = current;
+        current = current->next;
+        ++idx;
+    }
+    node->next = current;
+    previous->next = node;
+    ++size;
+    std::cout << "Node: " << value << " added at position: " << index << '\n';
+    
+    return true;
+}
+
 int LinkedList::indexOf(const int value) const
 {
     unsigned index = 0;
@@ -177,7 +211,8 @@ void LinkedList::clear()
             ++count;
         }
         std::cout << count << " nodes deleted\n";
-        size = 0;
+        size -= count;
         first = last = nullptr;
+        std::cout << "The size of the list: " << getSize() << '\n';
     }
 }

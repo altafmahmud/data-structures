@@ -21,6 +21,28 @@ int main()
     std::cout << "The size of list: " << linkedList.getSize() << '\n';
     linkedList.removeFirst();
     std::cout << "The size of list: " << linkedList.getSize() << '\n';
+    std::cout << '\n';
+
+    linkedList.addLast(10);
+    linkedList.addLast(20);
+    linkedList.addFirst(5);
+    std::cout << "The list:\n" << linkedList << '\n';
+    std::cout << "The size of the list: " << linkedList.getSize() << '\n';
+    linkedList.addAt(2, 15);
+    std::cout << "The list after adding 15 at index 2:\n" << linkedList << '\n';
+    std::cout << "The size of the list: " << linkedList.getSize() << '\n';
+    linkedList.addAt(4, 30);
+    std::cout << "The list after adding 30 at index 4:\n" << linkedList << '\n';
+    std::cout << "The size of the list: " << linkedList.getSize() << '\n';
+    linkedList.addAt(4, 25);
+    std::cout << "The list after adding 25 at index 4:\n" << linkedList << '\n';
+    std::cout << "The size of the list: " << linkedList.getSize() << '\n';
+    linkedList.addAt(7, 35);
+    std::cout << "The list after trying to add 35 at index 7:\n" << linkedList << '\n';
+    std::cout << "The size of the list: " << linkedList.getSize() << '\n';
+    linkedList.addAt(-1, 35);
+    std::cout << "The list after trying to add 35 at index -1:\n" << linkedList << '\n';
+    std::cout << "The size of the list: " << linkedList.getSize() << '\n';    
 
     linkedList.addLast(10);
     linkedList.addLast(20);
@@ -48,9 +70,14 @@ int main()
     std::cout << "Current linked list:\n" << linkedList << '\n';
     linkedList.reverse();
     std::cout << "Reversed linked list:\n" << linkedList << '\n';
+    linkedList.reverse();
 
+    std::cout << "Current linked list:\n" << linkedList << '\n';
     value = 2;
-    std::cout << value << "th node: " << linkedList.getKthNodeFromTheEnd(value) << '\n';
+    std::cout << value << "th node from the last: " << linkedList.getKthNodeFromTheEnd(value) << '\n';
+    linkedList.reverse();
+    std::cout << "Reversed linked list:\n" << linkedList << '\n';
+    std::cout << value << "th node from the last: " << linkedList.getKthNodeFromTheEnd(value) << '\n';
 
     return 0;
 }
