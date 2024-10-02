@@ -3,7 +3,7 @@
 #include <limits>
 #include <optional>
 
-const int DEFAULT_NODE_VALUE = std::numeric_limits<int>::lowest();
+constexpr int DEFAULT_NODE_VALUE = std::numeric_limits<int>::lowest();
 
 struct Node
 {
@@ -22,7 +22,7 @@ struct Node
         this->value = value;
     }
 
-    void resetLinks()
+    constexpr void resetLinks()
     {
         prev = next = nullptr;
     }
@@ -31,7 +31,7 @@ struct Node
 class LinkedList
 {
 private:
-    bool isEmpty() const;
+    constexpr bool isEmpty() const;
     std::optional<Node> deleteNode(Node*);
     int size;
     Node *first;
@@ -47,7 +47,7 @@ public:
     void addAt(const int, const int);
     int indexOf(const int) const;
     bool contains(const int) const;
-    int getSize() const
+    constexpr int getSize() const
     {
         return size;
     }
