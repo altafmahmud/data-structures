@@ -24,7 +24,7 @@ struct Node
 class LinkedList
 {
 private:
-    constexpr bool LinkedList::isEmpty() const
+    constexpr bool isEmpty() const noexcept
     {
         return size == 0;
     }
@@ -42,7 +42,7 @@ public:
     bool addAt(const int, const int);
     int indexOf(const int) const;
     bool contains(const int) const;
-    constexpr int getSize() const
+    constexpr int getSize() const noexcept
     {
         return size;
     }
