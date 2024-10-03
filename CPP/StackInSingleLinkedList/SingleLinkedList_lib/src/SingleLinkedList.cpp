@@ -2,154 +2,294 @@
 
 #include "SingleLinkedList.hpp"
 
-SingleLinkedList::SingleLinkedList() : size(0)
+LinkedList::LinkedList() : size(0)
 {
     first = last = nullptr;
 }
 
-SingleLinkedList::~SingleLinkedList()
+LinkedList::~LinkedList()
 {
     clear();
 }
 
-bool SingleLinkedList::isEmpty() const
+bool LinkedList::addLast(const int value)
 {
-    return (first == nullptr && last == nullptr);
-}
-
-void SingleLinkedList::addLast(const int value)
-{
-    Node* node = new Node(value);
+    if (value == DEFAULT_NODE_VALUE)
+    {
+        std::cerr << "Invalid value to be added: " << value << '\n';
+        return false;
+    }
+    Node *node = new Node(value);
     node->next = nullptr;
-    if (isEmpty()) {
+    if (isEmpty())
+    {
         first = last = node;
-    } else {
+    }
+    else
+    {
         last->next = node;
         last = node;
     }
     ++size;
+
+    return true;
 }
 
-void SingleLinkedList::addFirst(const int value)
+bool LinkedList::addFirst(const int value)
 {
-    Node* node = new Node(value);
-    if (isEmpty()) {
+    if (value == DEFAULT_NODE_VALUE)
+    {
+        std::cerr << "Invalid value to be added: " << value << '\n';
+        return false;
+    }
+    Node *node = new Node(value);
+    if (isEmpty())
+    {
         node->next = nullptr;
         first = last = node;
-    } else {
+    }
+    else
+    {
         node->next = first;
         first = node;
     }
     ++size;
+
+    return true;
 }
 
-int SingleLinkedList::indexOf(const int value) const
+bool LinkedList::addAt(const int index, const int value)
+{
+    if (index < 0)
+    {
+        std::cerr << "Invalid argument for index: " << index << '\n';
+        return false;
+    }
+    if (index > size)
+    {
+        std::cerr << "Invalid argument for index: " << index << ", greater than size: " << size << '\n';
+        return false;
+    }
+    if (index == 0)
+    {
+        return addFirst(value);
+    }
+    if (index == size)
+    {
+        return addLast(value);
+    }
+    auto node = new Node(value);
+    auto previous = first;
+    auto current = first->next;
+    unsigned idx = 1;
+    while (idx < index && current != last)
+    {
+        previous = current;
+        current = current->next;
+        ++idx;
+    }
+    node->next = current;
+    previous->next = node;
+    ++size;
+    std::cout << "Node: " << value << " added at position: " << index << '\n';
+
+    return true;
+}
+
+int LinkedList::indexOf(const int value) const
 {
     unsigned index = 0;
     auto current = first;
-    while (current != nullptr && current->value != value) {
+    while (current != nullptr && current->value != value)
+    {
         current = current->next;
         ++index;
     }
     return (current != nullptr) ? index : -1;
 }
 
-bool SingleLinkedList::contains(const int value) const
+bool LinkedList::contains(const int value) const
 {
     const auto index_of = indexOf(value);
     return (index_of >= 0);
 }
 
-void SingleLinkedList::removeFirst()
+std::optional<Node> LinkedList::removeFirst()
 {
-    if (isEmpty()) {
+    if (isEmpty())
+    {
         std::cout << "This list is empty, unable to remove the first item\n";
-        return;
+        return std::nullopt;
     }
-    const auto first_item = first->value;
-    if (first == last) {
+    Node node;
+    if (first == last)
+    {
+        first->next = nullptr;
+        node = *first;
         delete first;
         first = last = nullptr;
         --size;
-        std::cout << "First item: " << first_item << " deleted, the list empty\n";
-        return;
+        std::cout << "First item: " << node.value << " deleted, the list becomes empty\n";
+        return std::make_optional<Node>(node);
     }
     auto second_item = first->next;
     first->next = nullptr;
+    node = *first;
     delete first;
     first = second_item;
     --size;
-    std::cout << "First item: " << first_item << " deleted\n";
+    std::cout << "First item: " << node.value << " deleted\n";
+
+    return std::make_optional<Node>(node);
 }
 
-void SingleLinkedList::removeLast()
+std::optional<Node> LinkedList::removeLast()
 {
-    if (isEmpty()) {
+    if (isEmpty())
+    {
         std::cout << "This list is empty, unable to remove the last item\n";
-        return;
+        return std::nullopt;
     }
-    const auto last_item = last->value;
-    if (first == last) {
+    Node node;
+    if (first == last)
+    {
+        node = *last;
         delete last;
         first = last = nullptr;
         --size;
-        std::cout << "Last item: " << last_item << " deleted, the list empty\n";
-        return;
+        std::cout << "Last item: " << node.value << " deleted, the list becomes empty\n";
+        return std::make_optional<Node>(node);
     }
     auto previous = first;
     auto current = first->next;
-    while (current != last) {
+    while (current != last)
+    {
         previous = current;
         current = current->next;
     }
+    current->next = nullptr;
+    node = *current;
     delete current;
     last = previous;
     last->next = nullptr;
     --size;
-    std::cout << "Last item: " << last_item << " deleted\n";
+    std::cout << "Last item: " << node.value << " deleted\n";
+
+    return std::make_optional<Node>(node);
 }
 
-std::unique_ptr<int[]> SingleLinkedList::toArray() const
+std::optional<Node> LinkedList::removeAt(const int index)
+{
+    if (isEmpty())
+    {
+        std::cout << "This list is empty, unable to remove the item at position: " << index << '\n';
+        return std::nullopt;
+    }
+    if (index < 0)
+    {
+        std::cerr << "Invalid index: " << index << " to remove item\n";
+        return std::nullopt;
+    }
+    if (index >= size)
+    {
+        std::cerr << "Invalid index: " << index << " to remove item, index must be in: [" << 0 << '-' << size-1 << "]\n";
+        return std::nullopt;
+    }
+
+    if (index == 0)
+    {
+        return removeFirst();
+    }
+    if (index == size-1)
+    {
+        return removeLast();
+    }
+    unsigned idx = 1;
+    auto previous = first;
+    auto current = first->next;
+    while (current != last && idx < index)
+    {
+        previous = current;
+        current = current->next;
+        ++idx;
+    }
+    auto next = current->next;
+    current->next = nullptr;
+    Node node = *current;
+    delete current;
+    previous->next = next;
+    --size;
+    std::cout << "Item: " << node.value << " at position: " << index << " deleted\n";
+
+    return std::make_optional<Node>(node);
+}
+
+std::unique_ptr<int[]> LinkedList::toArray() const
 {
     std::unique_ptr<int[]> int_arr = std::make_unique<int[]>(size);
     unsigned idx = 0;
-    for (auto current = first; current != nullptr; current = current->next) {
+    for (auto current = first; current != nullptr; current = current->next)
+    {
         int_arr[idx++] = current->value;
     }
     return int_arr;
 }
 
-int SingleLinkedList::getKthNodeFromTheEnd(const int k) const
+const std::string LinkedList::toString() const
 {
-    if (k < 1 || isEmpty()) {
+    std::string list_str("[");
+    for (auto node = first; node != nullptr; node = node->next)
+    {
+        list_str += std::to_string(node->value);
+        if (node->next != nullptr)
+        {
+            list_str += ", ";
+        }
+    }
+    list_str += "]";
+
+    return list_str;
+}
+
+int LinkedList::getKthNodeFromTheEnd(const int k) const
+{
+    if (k < 1 || isEmpty())
+    {
         return -1;
     }
-    if (k == 1) {
+    if (k == 1)
+    {
         return last->value;
     }
     auto previous = first;
     auto current = previous;
-    for (auto diff = k-1; diff > 0 && current != nullptr; --diff) {
+    for (auto diff = k - 1; diff > 0 && current != nullptr; --diff)
+    {
         current = current->next;
     }
-    if (current == nullptr) {
+    if (current == nullptr)
+    {
         return -1;
     }
-    while (current != last) {
+    while (current != last)
+    {
         current = current->next;
         previous = previous->next;
     }
+
     return previous->value;
 }
 
-void SingleLinkedList::reverse()
+void LinkedList::reverse()
 {
-    if (isEmpty()) {
+    if (isEmpty())
+    {
         return;
     }
     auto previous = first;
     auto current = previous->next;
-    while (current != nullptr) {
+    while (current != nullptr)
+    {
         auto next = current->next;
         current->next = previous;
         previous = current;
@@ -160,24 +300,28 @@ void SingleLinkedList::reverse()
     last->next = nullptr;
 }
 
-void SingleLinkedList::clear()
+void LinkedList::clear()
 {
     unsigned count = 0;
-    if (first != nullptr) {
+    if (first != nullptr)
+    {
         auto current = first;
         auto next = current->next;
-        while (current != nullptr) {
+        while (current != nullptr)
+        {
             current->next = nullptr;
             delete current;
             current = nullptr;
             current = next;
-            if (next != nullptr) {
+            if (next != nullptr)
+            {
                 next = current->next;
             }
             ++count;
         }
         std::cout << count << " nodes deleted\n";
-        size = 0;
+        size -= count;
         first = last = nullptr;
+        std::cout << "The size of the list: " << getSize() << '\n';
     }
 }
