@@ -50,6 +50,32 @@ int main()
     std::cout << "The list after trying to add 35 at index -1:\n"
               << linkedList << '\n';
     std::cout << "The size of the list: " << linkedList.getSize() << '\n';
+    std::cout << '\n';
+
+    linkedList.addLast(10);
+    linkedList.addLast(20);
+    linkedList.addFirst(5);
+    std::cout << "Current list:\n" << linkedList << '\n';
+    std::cout << "The size of the list: " << linkedList.getSize() << '\n';
+    linkedList.removeAt(1);
+    std::cout << "Current list after removing item from position: 1\n" << linkedList << '\n';
+    std::cout << "The size of the list: " << linkedList.getSize() << '\n';
+    linkedList.removeAt(4);
+    std::cout << "Current list after removing item from position: 4\n" << linkedList << '\n';
+    std::cout << "The size of the list: " << linkedList.getSize() << '\n';
+    linkedList.removeAt(0);
+    std::cout << "Current list after removing item from position: 0\n" << linkedList << '\n';
+    std::cout << "The size of the list: " << linkedList.getSize() << '\n';
+    linkedList.removeAt(5);
+    std::cout << "Current list after removing item from position: 5\n" << linkedList << '\n';
+    std::cout << "The size of the list: " << linkedList.getSize() << '\n';
+    linkedList.removeAt(5);
+    std::cout << "Current list after trying to remove item from position: 5\n" << linkedList << '\n';
+    std::cout << "The size of the list: " << linkedList.getSize() << '\n';
+    linkedList.removeAt(-1);
+    std::cout << "Current list after trying to remove item from position: -1\n" << linkedList << '\n';
+    std::cout << "The size of the list: " << linkedList.getSize() << '\n';    
+    std::cout << '\n';
 
     linkedList.addLast(10);
     linkedList.addLast(20);
