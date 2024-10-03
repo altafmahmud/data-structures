@@ -11,7 +11,8 @@ void StackInSingleLinkedList::push(const int value)
 
 void StackInSingleLinkedList::pop()
 {
-    m_singleLinkedList.removeLast();
+    const auto opt_val = m_singleLinkedList.removeLast();
+    (!opt_val.has_value()) ? std::cout << "No value popped\n" : std::cout << "Value: " << opt_val.value().value << " popped\n";
 }
 
 void StackInSingleLinkedList::printStack(const bool toString) const
