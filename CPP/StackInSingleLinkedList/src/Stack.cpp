@@ -14,7 +14,7 @@ void StackInSingleLinkedList::pop()
     m_singleLinkedList.removeLast();
 }
 
-void StackInSingleLinkedList::printStack() const
+void StackInSingleLinkedList::printStack(const bool toString) const
 {
-    std::cout << m_singleLinkedList;
+    (toString) ? std::cout << m_singleLinkedList.toString() : std::cout << m_singleLinkedList;
 }

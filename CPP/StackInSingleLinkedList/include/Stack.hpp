@@ -2,7 +2,7 @@
 
 class StackInSingleLinkedList {
 private:
-    SingleLinkedList m_singleLinkedList;
+    LinkedList m_singleLinkedList;
 
 public:
     StackInSingleLinkedList() = default;
@@ -11,6 +11,5 @@ public:
 
     void push(const int);
     void pop();
-    void printStack() const;
+    void printStack(const bool toString = false) const;
 };
-
