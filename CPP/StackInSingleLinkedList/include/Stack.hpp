@@ -11,5 +11,16 @@ public:
 
     void push(const int);
     void pop();
+    
+    constexpr bool isEmpty() const noexcept
+    {
+        return m_singleLinkedList.getSize() != 0;
+    }
+
+    constexpr int getSize() const noexcept
+    {
+        return m_singleLinkedList.getSize();
+    }
+    
     void printStack(const bool toString = false) const;
 };

@@ -11,27 +11,32 @@ int main()
     std::cout << "After pushing 10\n";
     stack.printStack();
     stack.printStack(true);
+    std::cout << "\nStack size: " << stack.getSize() << '\n';
     std::cout << "\n***************\n\n";
     stack.push(15);
     std::cout << "After pushing 15\n";
     stack.printStack();
     stack.printStack(true);
+    std::cout << "\nStack size: " << stack.getSize() << '\n';
     std::cout << "\n***************\n\n";
 
     stack.pop();
     std::cout << "After popping\n";
     stack.printStack();
     stack.printStack(true);
+    std::cout << "\nStack size: " << stack.getSize() << '\n';
     std::cout << "\n***************\n\n";
     stack.pop();
     std::cout << "After popping\n";
     stack.printStack();
     stack.printStack(true);
+    std::cout << "\nStack size: " << stack.getSize() << '\n';
     std::cout << "\n***************\n\n";
     stack.pop();
     std::cout << "After popping\n";
     stack.printStack();
     stack.printStack(true);
+    std::cout << "\nStack size: " << stack.getSize() << '\n';
     std::cout << "\n***************\n\n";
 
     return 0;
