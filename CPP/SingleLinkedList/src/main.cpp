@@ -57,24 +57,48 @@ int main()
     linkedList.addFirst(5);
     std::cout << "Current list:\n" << linkedList << '\n';
     std::cout << "The size of the list: " << linkedList.getSize() << '\n';
-    linkedList.removeAt(1);
-    std::cout << "Current list after removing item from position: 1\n" << linkedList << '\n';
+    auto del_val = linkedList.removeAt(1);
+    (del_val == INVALID_NODE_VALUE) ? std::cout << "Current list after trying to remove item from position: 1\n"
+                                                << linkedList << '\n'
+                                    : std::cout << "Current list after removing " << del_val << " from position: 1\n"
+                                                << linkedList << '\n';
+    ;
     std::cout << "The size of the list: " << linkedList.getSize() << '\n';
-    linkedList.removeAt(4);
-    std::cout << "Current list after removing item from position: 4\n" << linkedList << '\n';
+    del_val = linkedList.removeAt(4);
+    (del_val == INVALID_NODE_VALUE) ? std::cout << "Current list after trying to remove item from position: 4\n"
+                                                << linkedList << '\n'
+                                    : std::cout << "Current list after removing " << del_val << " from position: 4\n"
+                                                << linkedList << '\n';
+    ;
     std::cout << "The size of the list: " << linkedList.getSize() << '\n';
-    linkedList.removeAt(0);
-    std::cout << "Current list after removing item from position: 0\n" << linkedList << '\n';
+    del_val = linkedList.removeAt(0);
+    (del_val == INVALID_NODE_VALUE) ? std::cout << "Current list after trying to remove item from position: 0\n"
+                                                << linkedList << '\n'
+                                    : std::cout << "Current list after removing " << del_val << " from position: 0\n"
+                                                << linkedList << '\n';
+    ;
     std::cout << "The size of the list: " << linkedList.getSize() << '\n';
-    linkedList.removeAt(5);
-    std::cout << "Current list after removing item from position: 5\n" << linkedList << '\n';
+    del_val = linkedList.removeAt(5);
+    (del_val == INVALID_NODE_VALUE) ? std::cout << "Current list after trying to remove item from position: 5\n"
+                                                << linkedList << '\n'
+                                    : std::cout << "Current list after removing " << del_val << " from position: 5\n"
+                                                << linkedList << '\n';
+    ;
     std::cout << "The size of the list: " << linkedList.getSize() << '\n';
-    linkedList.removeAt(5);
-    std::cout << "Current list after trying to remove item from position: 5\n" << linkedList << '\n';
+    del_val = linkedList.removeAt(5);
+    (del_val == INVALID_NODE_VALUE) ? std::cout << "Current list after trying to remove item from position: 5\n"
+                                                << linkedList << '\n'
+                                    : std::cout << "Current list after removing " << del_val << " from position: 5\n"
+                                                << linkedList << '\n';
+    ;
     std::cout << "The size of the list: " << linkedList.getSize() << '\n';
-    linkedList.removeAt(-1);
-    std::cout << "Current list after trying to remove item from position: -1\n" << linkedList << '\n';
-    std::cout << "The size of the list: " << linkedList.getSize() << '\n';    
+    del_val = linkedList.removeAt(-1);
+    (del_val == INVALID_NODE_VALUE) ? std::cout << "Current list after trying to remove item from position: -1\n"
+                                                << linkedList << '\n'
+                                    : std::cout << "Current list after removing " << del_val << " from position: -1\n"
+                                                << linkedList << '\n';
+    ;
+    std::cout << "The size of the list: " << linkedList.getSize() << '\n';
     std::cout << '\n';
 
     linkedList.addLast(10);
