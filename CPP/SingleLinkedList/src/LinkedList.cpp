@@ -235,6 +235,22 @@ std::unique_ptr<int[]> LinkedList::toArray() const
     return int_arr;
 }
 
+const std::string LinkedList::toString() const
+{
+    std::string list_str("[");
+    for (auto node = first; node != nullptr; node = node->next)
+    {
+        list_str += std::to_string(node->value);
+        if (node->next != nullptr)
+        {
+            list_str += ", ";
+        }
+    }
+    list_str += "]";
+
+    return list_str;
+}
+
 int LinkedList::getKthNodeFromTheEnd(const int k) const
 {
     if (k < 1 || isEmpty())
