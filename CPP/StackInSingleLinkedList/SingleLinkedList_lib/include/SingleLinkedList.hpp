@@ -1,6 +1,7 @@
 #include <iostream>
 #include <memory>
 #include <limits>
+#include <optional>
 
 constexpr int INVALID_NODE_VALUE = std::numeric_limits<int>::lowest();
 
@@ -51,7 +52,7 @@ public:
     int removeAt(const int);
     std::unique_ptr<int[]> toArray() const;
     const std::string toString() const;
-    int getAt(const int) const;
+    std::optional<Node> getAt(const int) const;
     int getKthNodeFromTheEnd(const int) const;
     void reverse();
     void clear();
