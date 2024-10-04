@@ -118,8 +118,7 @@ int LinkedList::removeFirst()
 {
     if (isEmpty())
     {
-        std::cout << "This list is empty, unable to remove the first item\n";
-        return INVALID_NODE_VALUE;
+        throw std::runtime_error("This list is empty, unable to remove the first item\n");
     }
     if (first == last)
     {
@@ -137,7 +136,6 @@ int LinkedList::removeFirst()
     delete first;
     first = second_item;
     --size;
-    std::cout << "First item: " << del_val << " deleted\n";
 
     return del_val;
 }
@@ -146,8 +144,7 @@ int LinkedList::removeLast()
 {
     if (isEmpty())
     {
-        std::cout << "This list is empty, unable to remove the last item\n";
-        return INVALID_NODE_VALUE;
+        throw std::runtime_error("This list is empty, unable to remove the last item\n");
     }
     if (first == last)
     {
@@ -171,7 +168,6 @@ int LinkedList::removeLast()
     last = previous;
     last->next = nullptr;
     --size;
-    std::cout << "Last item: " << del_val << " deleted\n";
 
     return del_val;
 }
@@ -180,18 +176,15 @@ int LinkedList::removeAt(const int index)
 {
     if (isEmpty())
     {
-        std::cout << "This list is empty, unable to remove the item at position: " << index << '\n';
-        return INVALID_NODE_VALUE;
+        throw std::runtime_error("This list is empty, unable to remove the item at position: " + std::to_string(index) + '\n');
     }
     if (index < 0)
     {
-        std::cerr << "Invalid index: " << index << " to remove item\n";
-        return INVALID_NODE_VALUE;
+        throw std::runtime_error("Invalid index: " + std::to_string(index) + " to remove item\n");
     }
     if (index >= size)
     {
-        std::cerr << "Invalid index: " << index << " to remove item, index must be in: [" << 0 << '-' << size - 1 << "]\n";
-        return INVALID_NODE_VALUE;
+        throw std::runtime_error("Invalid index: " + std::to_string(index) + " to remove item, index must be in: [" + std::to_string(0) + '-' + std::to_string(size - 1) + "]\n");
     }
 
     if (index == 0)
@@ -217,7 +210,6 @@ int LinkedList::removeAt(const int index)
     delete current;
     previous->next = next;
     --size;
-    std::cout << "Item: " << del_val << " at position: " << index << " deleted\n";
 
     return del_val;
 }
@@ -249,28 +241,24 @@ const std::string LinkedList::toString() const
     return list_str;
 }
 
-std::optional<Node> LinkedList::getAt(const int index) const
+int& LinkedList::getAt(const int index) const
 {
     if (isEmpty())
     {
-        std::cout << "This list is empty, unable to get the item at position: " << index << '\n';
-        return std::nullopt;
+        throw std::runtime_error("This list is empty, unable to get the item at position: " + std::to_string(index) + '\n');
     }
     if (index < 0 || index >= size)
     {
-        std::cerr << "Invalid index: " << index << " to get an item, index must be in: [" << 0 << '-' << size - 1 << "]\n";
-        return std::nullopt;
+        throw std::runtime_error("Invalid index: " + std::to_string(index) + " to get an item, index must be in: [" + std::to_string(0) + '-' + std::to_string(size - 1) + "]\n");
     }
 
     if (index == 0)
     {
-        const auto& node = *first;
-        return std::make_optional<Node>(node);
+        return first->value;
     }
     if (index == size - 1)
     {
-        const auto& node = *last;
-        return std::make_optional<Node>(node);
+        return last->value;
     }
     unsigned idx = 1;
     auto current = first->next;
@@ -279,15 +267,18 @@ std::optional<Node> LinkedList::getAt(const int index) const
         current = current->next;
         ++idx;
     }
-    const auto& node = *current;
-    return std::make_optional<Node>(node);
+    return current->value;
 }
 
-int LinkedList::getKthNodeFromTheEnd(const int k) const
+int& LinkedList::getKthNodeFromTheEnd(const int k) const
 {
-    if (k < 1 || isEmpty())
+    if (k < 1)
     {
-        return -1;
+        throw std::runtime_error("Invalid argument: " + std::to_string(k) + " to get an item, argument must be in: [" + std::to_string(1) + '-' + std::to_string(size) + "]\n");
+    }
+    if (isEmpty())
+    {
+        throw std::runtime_error("The list is empty");
     }
     if (k == 1)
     {
@@ -301,7 +292,7 @@ int LinkedList::getKthNodeFromTheEnd(const int k) const
     }
     if (current == nullptr)
     {
-        return -1;
+        throw std::runtime_error("Reached at the end of the list while setting the difference!");
     }
     while (current != last)
     {
