@@ -51,8 +51,8 @@ public:
     int removeAt(const int);
     std::unique_ptr<int[]> toArray() const;
     const std::string toString() const;
-    int& getAt(const int) const;
-    int& getKthNodeFromTheEnd(const int) const;
+    int &getAt(const int) const;
+    int &getKthNodeFromTheEnd(const int) const;
     void reverse();
     void clear();
 
