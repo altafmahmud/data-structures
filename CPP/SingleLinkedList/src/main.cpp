@@ -154,6 +154,21 @@ int main()
     kth_node_02 = 50;
     std::cout << "Current linked list after changing the 2nd node value:\n"
               << linkedList << '\n';
+    std::cout << '\n';
+
+    try
+    {
+        std::cout << "Iterating list:\n";
+        for (auto iterator = linkedList.begin(); iterator != linkedList.end(); ++iterator)
+        {
+            std::cout << *iterator << ' ';
+        }
+        std::cout << "\n\n";
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
 
     return 0;
 }

@@ -2,7 +2,9 @@
 
 #include "LinkedList.hpp"
 
-LinkedList::LinkedList() : size(0)
+#include <exception>
+
+LinkedList::LinkedList() noexcept: size(0)
 {
     first = last = nullptr;
 }
@@ -345,4 +347,63 @@ void LinkedList::clear()
         first = last = nullptr;
         std::cout << "The size of the list: " << getSize() << '\n';
     }
+}
+
+LinkedList::Iterator::Iterator() noexcept: m_pCurrentNode(nullptr)
+{}
+
+LinkedList::Iterator::Iterator(const Node* pNode) noexcept: m_pCurrentNode(pNode)
+{}
+
+LinkedList::Iterator& LinkedList::Iterator::operator=(const Node* pNode)
+{
+    this->m_pCurrentNode = pNode;
+    return *this;
+}
+
+LinkedList::Iterator& LinkedList::Iterator::operator+(const unsigned offset)
+{
+    for (unsigned idx = 0; idx < offset; ++idx)
+    {
+        if (this->m_pCurrentNode == nullptr)
+        {
+            throw std::range_error("Access to an invalid object\n");
+        }
+        ++*this;
+    }
+
+    return *this;
+}
+
+LinkedList::Iterator& LinkedList::Iterator::operator++()
+{
+    if (this->m_pCurrentNode == nullptr)
+    {
+        throw std::range_error("Access to an invalid object\n");
+    }
+    this->m_pCurrentNode = this->m_pCurrentNode->next;
+    
+    return *this;
+}
+
+LinkedList::Iterator LinkedList::Iterator::operator++(int)
+{
+    if (this->m_pCurrentNode == nullptr)
+    {
+        throw std::range_error("Access to an invalid object\n");
+    }
+    auto iterator = *this;
+    ++*this;
+    
+    return iterator;
+}
+
+bool LinkedList::Iterator::operator!=(const Iterator& iterator)
+{
+    return this->m_pCurrentNode != iterator.m_pCurrentNode;
+}
+
+int LinkedList::Iterator::operator*()
+{
+    return this->m_pCurrentNode->value;
 }
