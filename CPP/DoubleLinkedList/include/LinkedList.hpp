@@ -261,6 +261,10 @@ public:
             removeLast();
             return index;
         }
+        if (current == nullptr)
+        {
+            throw std::invalid_argument("Unable to remove value: " + std::to_string(value) + ", not found\n");
+        }
         try
         {
             deleteNode(current);
