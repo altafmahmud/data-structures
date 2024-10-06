@@ -2,7 +2,7 @@
 
 #include "LinkedList.hpp"
 
-LinkedList::LinkedList() noexcept: size(0)
+LinkedList::LinkedList() noexcept : size(0)
 {
     first = last = nullptr;
 }
@@ -12,7 +12,7 @@ LinkedList::~LinkedList()
     clear();
 }
 
-int LinkedList::deleteNode(Node* node)
+int LinkedList::deleteNode(Node *node)
 {
     if (node == nullptr)
     {
@@ -77,7 +77,7 @@ void LinkedList::addAt(const int index, const int value)
     }
     else if (index > size)
     {
-        throw std::invalid_argument("Invalid index: " + std::to_string(index) + ", greater than list size: " + std::to_string(size) + '\n'); 
+        throw std::invalid_argument("Invalid index: " + std::to_string(index) + ", greater than list size: " + std::to_string(size) + '\n');
     }
     if (index == 0)
     {
@@ -191,7 +191,7 @@ int LinkedList::removeLast()
         last = previous;
     }
     --size;
-    
+
     return last_value;
 }
 
@@ -219,11 +219,11 @@ int LinkedList::remove(const int value)
     {
         del_val = deleteNode(current);
     }
-    catch(const std::exception& e)
+    catch (const std::exception &e)
     {
         throw;
     }
-    
+
     return del_val;
 }
 
@@ -268,11 +268,11 @@ int LinkedList::removeAt(const int index)
     {
         del_val = deleteNode(current);
     }
-    catch(const std::exception& e)
+    catch (const std::exception &e)
     {
         throw;
     }
-    
+
     return del_val;
 }
 
@@ -287,7 +287,7 @@ std::unique_ptr<int[]> LinkedList::toArray() const
     return int_arr;
 }
 
-int& LinkedList::getKthNodeFromTheEnd(const int k) const
+int &LinkedList::getKthNodeFromTheEnd(const int k) const
 {
     if (k < 1 || k > size)
     {
@@ -309,6 +309,49 @@ int& LinkedList::getKthNodeFromTheEnd(const int k) const
     if (current == nullptr)
     {
         throw std::runtime_error("Passed the list while setting the difference!");
+    }
+
+    return current->value;
+}
+
+int &LinkedList::getAt(const int index) const
+{
+    if (index < 0 || index >= size)
+    {
+        throw std::runtime_error("Invalid argument: " + std::to_string(index) + " to get an item, argument must be in: [" + std::to_string(0) + '-' + std::to_string(size - 1) + "]\n");
+    }
+    if (isEmpty())
+    {
+        throw std::runtime_error("The list is empty");
+    }
+    if (index == 0)
+    {
+        return first->value;
+    }
+    if (index == size - 1)
+    {
+        return last->value;
+    }
+    Node *current = nullptr;
+    if (index < size / 2)
+    {
+        current = first->next;
+        for (auto idx = 1; idx < index && current != last; ++idx)
+        {
+            current = current->next;
+        }
+    }
+    else
+    {
+        current = last->prev;
+        for (auto idx = size - 1; idx > index && current != first; --idx)
+        {
+            current = current->prev;
+        }
+    }
+    if (current == first || current == last)
+    {
+        throw std::runtime_error("Passed the list while searching for the index: " + std::to_string(index) + '\n');
     }
 
     return current->value;
@@ -337,11 +380,14 @@ void LinkedList::reverse()
     last = current;
 }
 
-const std::string LinkedList::toString() const {
+const std::string LinkedList::toString() const
+{
     std::string list_str("[");
-    for (auto node = first; node != nullptr; node = node->next) {
+    for (auto node = first; node != nullptr; node = node->next)
+    {
         list_str += std::to_string(node->value);
-        if (node->next != nullptr) {
+        if (node->next != nullptr)
+        {
             list_str += ", ";
         }
     }
@@ -372,4 +418,63 @@ void LinkedList::clear()
         std::cout << count << " nodes deleted, size of the list: " << size << '\n';
         first = last = nullptr;
     }
+}
+
+LinkedList::Iterator::Iterator() noexcept: m_pCurrentNode(nullptr)
+{}
+
+LinkedList::Iterator::Iterator(const Node* pNode) noexcept: m_pCurrentNode(pNode)
+{}
+
+LinkedList::Iterator& LinkedList::Iterator::operator=(const Node* pNode)
+{
+    this->m_pCurrentNode = pNode;
+    return *this;
+}
+
+LinkedList::Iterator& LinkedList::Iterator::operator+(const unsigned offset)
+{
+    for (unsigned idx = 0; idx < offset; ++idx)
+    {
+        if (this->m_pCurrentNode == nullptr)
+        {
+            throw std::range_error("Access to an invalid object\n");
+        }
+        ++*this;
+    }
+
+    return *this;
+}
+
+LinkedList::Iterator& LinkedList::Iterator::operator++()
+{
+    if (this->m_pCurrentNode == nullptr)
+    {
+        throw std::range_error("Access to an invalid object\n");
+    }
+    this->m_pCurrentNode = this->m_pCurrentNode->next;
+    
+    return *this;
+}
+
+LinkedList::Iterator LinkedList::Iterator::operator++(int)
+{
+    if (this->m_pCurrentNode == nullptr)
+    {
+        throw std::range_error("Access to an invalid object\n");
+    }
+    auto iterator = *this;
+    ++*this;
+    
+    return iterator;
+}
+
+bool LinkedList::Iterator::operator!=(const Iterator& iterator)
+{
+    return this->m_pCurrentNode != iterator.m_pCurrentNode;
+}
+
+int LinkedList::Iterator::operator*()
+{
+    return this->m_pCurrentNode->value;
 }

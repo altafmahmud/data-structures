@@ -8,7 +8,7 @@ int main()
     auto value = INVALID_NODE_VALUE;
     linkedList.addLast(10);
     linkedList.addLast(20);
-    linkedList.addFirst(5);    
+    linkedList.addFirst(5);
     try
     {
         std::cout << "List before adding 15 at position 2:\n"
@@ -26,7 +26,8 @@ int main()
         std::cout << "List after adding 30 at position 10:\n"
                   << linkedList << '\n';
     }
-    catch (const std::exception& ex) {
+    catch (const std::exception &ex)
+    {
         std::cout << ex.what();
     }
 
@@ -75,7 +76,7 @@ int main()
         std::cout << "Last item: " << value << " removed\n";
         std::cout << "The size of list: " << linkedList.getSize() << '\n';
     }
-    catch(const std::exception& e)
+    catch (const std::exception &e)
     {
         std::cerr << e.what() << '\n';
     }
@@ -101,7 +102,7 @@ int main()
         std::cout << "After removing node 50:\n"
                   << linkedList;
     }
-    catch(const std::exception& e)
+    catch (const std::exception &e)
     {
         std::cerr << e.what() << '\n';
     }
@@ -129,24 +130,27 @@ int main()
         std::cout << "After removing node: " << value << " at position: 1\n"
                   << linkedList;
     }
-    catch(const std::exception& e)
+    catch (const std::exception &e)
     {
         std::cerr << e.what() << '\n';
     }
-    std::cout << '\n';              
+    std::cout << '\n';
 
     linkedList.addLast(10);
     linkedList.addLast(20);
     linkedList.addFirst(5);
     auto int_arr = linkedList.toArray();
     std::cout << "To array:\n";
-    for (auto idx = 0; idx < linkedList.getSize(); ++idx) {
+    for (auto idx = 0; idx < linkedList.getSize(); ++idx)
+    {
         std::cout << int_arr[idx] << '\n';
     }
     std::cout << '\n';
-    std::cout << "Current linked list:\n" << linkedList << '\n';
+    std::cout << "Current linked list:\n"
+              << linkedList << '\n';
     linkedList.reverse();
-    std::cout << "Reversed linked list:\n" << linkedList << '\n';
+    std::cout << "Reversed linked list:\n"
+              << linkedList << '\n';
 
     try
     {
@@ -157,14 +161,53 @@ int main()
                   << linkedList << '\n';
         std::cout << value << "rd node from the end: " << linkedList.getKthNodeFromTheEnd(value) << '\n';
     }
-    catch(const std::exception& e)
+    catch (const std::exception &e)
     {
         std::cerr << e.what() << '\n';
     }
     std::cout << '\n';
-
-    std::cout << "List to string:\n" << linkedList.toString() << '\n';
+    std::cout << "List to string:\n"
+              << linkedList.toString() << '\n';
     std::cout << '\n';
+
+    try
+    {
+        linkedList.addAt(2, 15);
+        linkedList.addLast(25);
+        linkedList.addLast(30);
+        std::cout << "Current linked list:\n"
+                  << linkedList << '\n';
+        auto &val_01 = linkedList.getAt(0);
+        val_01 = 50;
+        std::cout << "Current linked list after changing value at position 0" << '\n'
+                  << linkedList << '\n';
+        auto &val_03 = linkedList.getAt(3);
+        val_03 = 100;
+        std::cout << "Current linked list after changing value at position 3" << '\n'
+                  << linkedList << '\n';
+        auto &val_05 = linkedList.getAt(5);
+        val_05 = 300;
+        std::cout << "Current linked list after changing value at position 5" << '\n'
+                  << linkedList << '\n';
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+    try
+    {
+        std::cout << "Iterating list:\n";
+        for (auto iterator = linkedList.begin(); iterator != linkedList.end(); ++iterator)
+        {
+            std::cout << *iterator << ' ';
+        }
+        std::cout << "\n\n";
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }    
 
     return 0;
 }
