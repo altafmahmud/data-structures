@@ -30,14 +30,13 @@ struct Node
 class LinkedList
 {
 private:
-    constexpr bool isEmpty() const;
-    std::optional<Node> deleteNode(Node*);
+    int deleteNode(Node*);
     int size;
     Node *first;
     Node *last;
 
 public:
-    LinkedList();
+    LinkedList() noexcept;
     LinkedList(const LinkedList &) = delete;
     ~LinkedList();
 
@@ -46,16 +45,20 @@ public:
     void addAt(const int, const int);
     int indexOf(const int) const;
     bool contains(const int) const;
-    constexpr int getSize() const
+    constexpr int getSize() const noexcept
     {
         return size;
     }
-    std::optional<Node> removeFirst();
-    std::optional<Node> removeLast();
-    std::optional<Node> remove(const int);
-    std::optional<Node> removeAt(const int);
+    constexpr bool isEmpty() const noexcept
+    {
+        return size == 0;
+    }
+    int removeFirst();
+    int removeLast();
+    int remove(const int);
+    int removeAt(const int);
     std::unique_ptr<int[]> toArray() const;
-    int getKthNodeFromTheEnd(const int) const;
+    int& getKthNodeFromTheEnd(const int) const;
     void reverse();
     const std::string toString() const;
     void clear();
