@@ -16,7 +16,7 @@ int main()
     std::cout << "After removing 1: " << binMinHeap << '\n';
     binMinHeap.poll();
     std::cout << "After polling: " << binMinHeap << '\n';
-    
+
     BinaryHeap<int, std::greater<int>> binMaxHeap;
     binMaxHeap.bulkInsert(int_vec);
     std::cout << binMinHeap << '\n';
