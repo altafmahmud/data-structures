@@ -56,89 +56,6 @@ public:
         remove(element);
     }
 
-    void bubbleUp(const int childIndex, const int parentIndex)
-    {
-        if (parentIndex < 0 || parentIndex >= m_container.size())
-        {
-            throw std::out_of_range("Parent index: " + std::to_string(parentIndex) + " for bubble up");
-        }
-        if (childIndex < 0 || parentIndex >= m_container.size())
-        {
-            throw std::out_of_range("Child index: " + std::to_string(parentIndex) + " for bubble up");
-        }
-        auto childIdx = childIndex;
-        auto parentIdx = parentIndex;
-        auto pChild = &m_container[childIdx];
-        auto pParent = &m_container[parentIdx];
-        while (compare(*pChild, *pParent))
-        {
-            swapElements(childIdx, parentIdx);
-            childIdx = parentIdx;
-            parentIdx = getParentIndex(childIdx);
-            if (parentIdx < 0)
-            {
-                break;
-            }
-            pParent = &m_container[parentIdx];
-            pChild = &m_container[childIdx];
-        }
-    }
-
-    void bubbleDown(const int parentIndex)
-    {
-        if (parentIndex < 0 || parentIndex >= m_container.size())
-        {
-            throw std::out_of_range("Parent index: " + std::to_string(parentIndex) + " for bubble down");
-        }
-        auto parentIdx = parentIndex;
-        while (true)
-        {
-            const auto pParent = &m_container[parentIdx];
-            const auto child1_index = getChildIndex(parentIdx, 1);
-            if (child1_index < 0)
-            {
-                break;
-            }
-            const auto pChild1 = &m_container[child1_index];
-            const auto child2_index = getChildIndex(parentIdx, 2);
-            if (child2_index < 0)
-            {
-                if (compare(*pChild1, *pParent))
-                {
-                    // only one child
-                    swapElements(parentIdx, child1_index);
-                    parentIdx = child1_index;
-                }
-                break;
-            }
-            const auto pChild2 = &m_container[child2_index];
-            if (!compare(*pChild1, *pParent) && !compare(*pChild2, *pParent))
-            {
-                break;
-            }
-            if (compare(*pChild1, *pParent) && compare(*pChild2, *pParent))
-            {
-                if (compare(*pChild1, *pChild2))
-                {
-                    swapElements(parentIdx, child1_index);
-                    parentIdx = child1_index;
-                    continue;
-                }
-                swapElements(parentIdx, child2_index);
-                parentIdx = child2_index;
-                continue;
-            }
-            if (compare(*pChild1, *pParent))
-            {
-                swapElements(parentIdx, child1_index);
-                parentIdx = child1_index;
-                continue;
-            }
-            swapElements(parentIdx, child2_index);
-            parentIdx = child2_index;
-        }
-    }
-
     void print() const
     {
         std::cout << *this;
@@ -261,6 +178,89 @@ private:
             }
         }
     }
+
+    void bubbleUp(const int childIndex, const int parentIndex)
+    {
+        if (parentIndex < 0 || parentIndex >= m_container.size())
+        {
+            throw std::out_of_range("Parent index: " + std::to_string(parentIndex) + " for bubble up");
+        }
+        if (childIndex < 0 || parentIndex >= m_container.size())
+        {
+            throw std::out_of_range("Child index: " + std::to_string(parentIndex) + " for bubble up");
+        }
+        auto childIdx = childIndex;
+        auto parentIdx = parentIndex;
+        auto pChild = &m_container[childIdx];
+        auto pParent = &m_container[parentIdx];
+        while (compare(*pChild, *pParent))
+        {
+            swapElements(childIdx, parentIdx);
+            childIdx = parentIdx;
+            parentIdx = getParentIndex(childIdx);
+            if (parentIdx < 0)
+            {
+                break;
+            }
+            pParent = &m_container[parentIdx];
+            pChild = &m_container[childIdx];
+        }
+    }
+
+    void bubbleDown(const int parentIndex)
+    {
+        if (parentIndex < 0 || parentIndex >= m_container.size())
+        {
+            throw std::out_of_range("Parent index: " + std::to_string(parentIndex) + " for bubble down");
+        }
+        auto parentIdx = parentIndex;
+        while (true)
+        {
+            const auto pParent = &m_container[parentIdx];
+            const auto child1_index = getChildIndex(parentIdx, 1);
+            if (child1_index < 0)
+            {
+                break;
+            }
+            const auto pChild1 = &m_container[child1_index];
+            const auto child2_index = getChildIndex(parentIdx, 2);
+            if (child2_index < 0)
+            {
+                if (compare(*pChild1, *pParent))
+                {
+                    // only one child
+                    swapElements(parentIdx, child1_index);
+                    parentIdx = child1_index;
+                }
+                break;
+            }
+            const auto pChild2 = &m_container[child2_index];
+            if (!compare(*pChild1, *pParent) && !compare(*pChild2, *pParent))
+            {
+                break;
+            }
+            if (compare(*pChild1, *pParent) && compare(*pChild2, *pParent))
+            {
+                if (compare(*pChild1, *pChild2))
+                {
+                    swapElements(parentIdx, child1_index);
+                    parentIdx = child1_index;
+                    continue;
+                }
+                swapElements(parentIdx, child2_index);
+                parentIdx = child2_index;
+                continue;
+            }
+            if (compare(*pChild1, *pParent))
+            {
+                swapElements(parentIdx, child1_index);
+                parentIdx = child1_index;
+                continue;
+            }
+            swapElements(parentIdx, child2_index);
+            parentIdx = child2_index;
+        }
+    }    
 
     std::vector<T> m_container;
     std::unordered_multimap<T, int> m_indexMap;
