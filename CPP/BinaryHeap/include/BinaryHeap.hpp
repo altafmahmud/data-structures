@@ -2,19 +2,31 @@
 #include <vector>
 #include <algorithm>
 #include <unordered_map>
-#include <stdexcept>
 
 template <typename T, typename Compare = std::less<T>>
 class BinaryHeap
 {
 public:
     constexpr BinaryHeap() = default;
+
     BinaryHeap(const BinaryHeap &rhs)
     {
-        const auto &rhs_container = rhs.container();
-        std::copy(rhs_container.cbegin(), rhs_container.cend(), std::back_inserter(this->m_container));
+        this->m_container = rhs.m_container;
+        this->m_indexMap = rhs.m_indexMap;
     }
+    
     ~BinaryHeap() = default;
+
+    BinaryHeap<T, Compare> &operator=(const BinaryHeap<T, Compare> &rhs)
+    {
+        if (this == &rhs)
+        {
+            return *this;
+        }
+        this->m_container = rhs.m_container;
+        this->m_indexMap = rhs.m_indexMap;
+        return *this;
+    }
 
     void insert(const T &element)
     {
@@ -61,7 +73,7 @@ public:
         std::cout << *this;
     }
 
-    [[nodiscard]] const std::vector<T> &container() const noexcept
+    [[nodiscard]] std::vector<T> container() const noexcept
     {
         return m_container;
     }
@@ -82,18 +94,6 @@ public:
     }
 
 private:
-    friend std::ostream &operator<<(std::ostream &os, const BinaryHeap<T, Compare> &binHeap)
-    {
-        auto count = 0;
-        for (const auto &elem : binHeap.m_container)
-        {
-            os << elem;
-            (count < binHeap.size() - 1) ? os << ", " : os << '\n';
-            ++count;
-        }
-        return os;
-    }
-
     [[nodiscard]] int getParentIndex(const int childIndex) const
     {
         if (childIndex < 0)
@@ -260,7 +260,19 @@ private:
             swapElements(parentIdx, child2_index);
             parentIdx = child2_index;
         }
-    }    
+    }
+
+    friend std::ostream &operator<<(std::ostream &os, const BinaryHeap<T, Compare> &binHeap)
+    {
+        auto count = 0;
+        for (const auto &elem : binHeap.m_container)
+        {
+            os << elem;
+            (count < binHeap.size() - 1) ? os << ", " : os << '\n';
+            ++count;
+        }
+        return os;
+    }
 
     std::vector<T> m_container;
     std::unordered_multimap<T, int> m_indexMap;

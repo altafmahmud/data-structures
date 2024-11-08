@@ -30,5 +30,18 @@ int main()
     std::cout << "Max heap after removing 1: " << binMaxHeap << '\n';
     binMaxHeap.poll();
     std::cout << "Max heap after polling: " << binMaxHeap << '\n';
+
+    // test copy constr.
+    BinaryHeap<int> binMinHeapCopy = binMinHeap;
+    std::cout << "Min heap copy: " << binMinHeapCopy << '\n';
+    binMinHeapCopy.poll();
+    std::cout << "Min heap copy after polling: " << binMinHeapCopy << '\n';
+
+    // test assignment (=) op.
+    BinaryHeap<int, std::greater<int>> binMaxHeapCopy = binMaxHeap;
+    std::cout << "Max heap copy: " << binMaxHeapCopy << '\n';
+    binMaxHeapCopy.poll();
+    std::cout << "Max heap copy after polling: " << binMaxHeapCopy << '\n';
+
     return 0;
 }
