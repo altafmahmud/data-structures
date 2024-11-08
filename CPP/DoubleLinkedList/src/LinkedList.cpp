@@ -14,7 +14,7 @@ LinkedList::~LinkedList()
     clear();
 }
 
-bool LinkedList::isEmpty() const
+constexpr bool LinkedList::isEmpty() const
 {
     return (size == 0);
 }
@@ -348,7 +348,7 @@ const std::string LinkedList::toString() const {
         }
     }
     list_str += "]";
-    
+
     return list_str;
 }
 
