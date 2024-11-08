@@ -12,11 +12,6 @@ LinkedList::~LinkedList()
     clear();
 }
 
-bool LinkedList::isEmpty() const
-{
-    return (first == nullptr && last == nullptr);
-}
-
 void LinkedList::addLast(const int value)
 {
     Node *node = new Node(value);
@@ -197,7 +192,7 @@ int LinkedList::getKthNodeFromTheEnd(const int k) const
         current = current->next;
         previous = previous->next;
     }
-    
+
     return previous->value;
 }
 
