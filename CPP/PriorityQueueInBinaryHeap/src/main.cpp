@@ -42,5 +42,31 @@ int main()
     maxQueue.pop();
     std::cout << "Max PQ after pop:\n";
     printPQ(maxQueue.container());
+
+    minQueue.clear();
+    minQueue.bulkPush(int_vec);
+    PriorityQueue<int> minQueueCopy = minQueue;
+    std::cout << "Copy of min PQ\n";
+    printPQ(minQueueCopy.container());
+    minQueueCopy.remove(2);
+    std::cout << "Copy of min PQ after removing the value 2:\n";
+    printPQ(minQueueCopy.container());
+    minQueueCopy.pop();
+    std::cout << "Copy of min PQ after pop:\n";
+    printPQ(minQueueCopy.container());
+
+    maxQueue.clear();
+    maxQueue.bulkPush(int_vec);
+    PriorityQueue<int, std::greater<int>> maxQueueCopy;
+    maxQueueCopy = maxQueue;
+    std::cout << "Copy of max PQ\n";
+    printPQ(maxQueueCopy.container());
+    maxQueueCopy.remove(17);
+    std::cout << "Copy of max PQ after removing the value 17:\n";
+    printPQ(maxQueueCopy.container());
+    maxQueueCopy.pop();
+    std::cout << "Copy of max PQ after pop:\n";
+    printPQ(maxQueueCopy.container());
+
     return 0;
 }

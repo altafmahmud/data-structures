@@ -12,7 +12,12 @@ public:
 
     PriorityQueue<T, Compare> &operator=(const PriorityQueue<T, Compare> &rhs)
     {
+        if (this == &rhs)
+        {
+            return *this;
+        }
         this->m_binHeap = rhs.m_binHeap;
+        return *this;
     }
 
     void push(const T &element)

@@ -94,6 +94,7 @@ public:
 
     void clear()
     {
+        m_indexMap.clear();
         m_container.clear();
     }
 
