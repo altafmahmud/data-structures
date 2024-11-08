@@ -68,6 +68,15 @@ public:
         remove(element);
     }
 
+    [[nodiscard]] const T& at(const int index) const
+    {
+        if (m_container.empty() || index < 0)
+        {
+            throw std::out_of_range("Index: " + std::to_string(index) + " out of range\n");
+        }
+        return m_container.at(index);
+    }
+
     [[nodiscard]] std::vector<T> container() const noexcept
     {
         return m_container;
