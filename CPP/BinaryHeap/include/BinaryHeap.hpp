@@ -158,7 +158,7 @@ private:
                 itr1 = itr;
                 ++count;
             }
-            // if indices of two but elements with the same value being swapped here
+            // if different indices of two elements with the same value being swapped here
             else if (itr->second == index2)
             {
                 itr2 = itr;
@@ -168,12 +168,13 @@ private:
         if (count < 2)
         {
             range = m_indexMap.equal_range(element2);
-            // values are swapped already, check which iterator (1 or 2) to be assigned
+            // values are swapped already, check which index (1 or 2) to compare
             const auto index_to_compare = (itr1 == m_indexMap.end()) ? index1 : index2;
             for (auto itr = range.first; itr != range.second && count < 2; ++itr)
             {
                 if (itr->second == index_to_compare)
                 {
+                    // check which iterator (1 or 2) needs to be assigned
                     if (itr2 == m_indexMap.end())
                     {
                         itr2 = itr;
