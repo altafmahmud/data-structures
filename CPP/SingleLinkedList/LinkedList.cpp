@@ -109,9 +109,9 @@ void LinkedList::removeLast()
     std::cout << "Last item: " << last_item << " deleted\n";
 }
 
-int *LinkedList::toArray() const
+std::unique_ptr<int[]> LinkedList::toArray() const
 {
-    auto int_arr = new int[size];
+    std::unique_ptr<int[]> int_arr = std::make_unique<int[]>(size);
     unsigned idx = 0;
     for (auto current = first; current != nullptr; current = current->next) {
         int_arr[idx++] = current->value;

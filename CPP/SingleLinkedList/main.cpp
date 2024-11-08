@@ -34,6 +34,7 @@ int main()
     std::cout << "The size of list: " << linkedList.getSize() << '\n';
     linkedList.removeLast();
     std::cout << "The size of list: " << linkedList.getSize() << '\n';
+    std::cout << '\n';
 
     linkedList.addLast(10);
     linkedList.addLast(20);
@@ -43,8 +44,6 @@ int main()
     for (auto idx = 0; idx < linkedList.getSize(); ++idx) {
         std::cout << int_arr[idx] << '\n';
     }
-    delete [] int_arr;
-    int_arr = nullptr;
 
     std::cout << "Current linked list:\n" << linkedList << '\n';
     linkedList.reverse();

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 
 struct Node {
     int value;
@@ -28,7 +29,7 @@ public:
     }
     void removeFirst();
     void removeLast();
-    int* toArray() const;
+    std::unique_ptr<int[]> toArray() const;
     int getKthNodeFromTheEnd(const int) const;
     void reverse();
     void clear();
