@@ -19,10 +19,10 @@ public:
     LinkedList(const LinkedList&) = delete;
     ~LinkedList();
 
-    void addLast(const int value);
-    void addFirst(const int value);
-    int indexOf(const int value) const;
-    bool contains(const int value) const;
+    void addLast(const int);
+    void addFirst(const int);
+    int indexOf(const int) const;
+    bool contains(const int) const;
     int getSize() const {
         return size;
     }
