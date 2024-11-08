@@ -103,18 +103,22 @@ int main()
 
     std::cout << "Current linked list:\n"
               << linkedList << '\n';
+    std::cout << "List to string:\n" << linkedList.toString() << '\n';
     linkedList.reverse();
     std::cout << "Reversed linked list:\n"
               << linkedList << '\n';
+    std::cout << "List to string:\n" << linkedList.toString() << '\n';
     linkedList.reverse();
 
     std::cout << "Current linked list:\n"
               << linkedList << '\n';
+    std::cout << "List to string:\n" << linkedList.toString() << '\n';              
     value = 2;
     std::cout << value << "th node from the end: " << linkedList.getKthNodeFromTheEnd(value) << '\n';
     linkedList.reverse();
     std::cout << "Reversed linked list:\n"
               << linkedList << '\n';
+    std::cout << "List to string:\n" << linkedList.toString() << '\n';          
     std::cout << value << "th node from the end: " << linkedList.getKthNodeFromTheEnd(value) << '\n';
 
     return 0;
