@@ -14,7 +14,7 @@ LinkedList::~LinkedList()
 
 bool LinkedList::addLast(const int value)
 {
-    if (value == DEFAULT_NODE_VALUE)
+    if (value == INVALID_NODE_VALUE)
     {
         std::cerr << "Invalid value to be added: " << value << '\n';
         return false;
@@ -37,7 +37,7 @@ bool LinkedList::addLast(const int value)
 
 bool LinkedList::addFirst(const int value)
 {
-    if (value == DEFAULT_NODE_VALUE)
+    if (value == INVALID_NODE_VALUE)
     {
         std::cerr << "Invalid value to be added: " << value << '\n';
         return false;
@@ -114,51 +114,49 @@ bool LinkedList::contains(const int value) const
     return (index_of >= 0);
 }
 
-std::optional<Node> LinkedList::removeFirst()
+int LinkedList::removeFirst()
 {
     if (isEmpty())
     {
         std::cout << "This list is empty, unable to remove the first item\n";
-        return std::nullopt;
+        return INVALID_NODE_VALUE;
     }
-    Node node;
     if (first == last)
     {
         first->next = nullptr;
-        node = *first;
+        const auto del_val = first->value;
         delete first;
         first = last = nullptr;
         --size;
-        std::cout << "First item: " << node.value << " deleted, the list becomes empty\n";
-        return std::make_optional<Node>(node);
+        std::cout << "First item: " << del_val << " deleted, the list becomes empty\n";
+        return del_val;
     }
     auto second_item = first->next;
     first->next = nullptr;
-    node = *first;
+    const auto del_val = first->value;
     delete first;
     first = second_item;
     --size;
-    std::cout << "First item: " << node.value << " deleted\n";
+    std::cout << "First item: " << del_val << " deleted\n";
 
-    return std::make_optional<Node>(node);
+    return del_val;
 }
 
-std::optional<Node> LinkedList::removeLast()
+int LinkedList::removeLast()
 {
     if (isEmpty())
     {
         std::cout << "This list is empty, unable to remove the last item\n";
-        return std::nullopt;
+        return INVALID_NODE_VALUE;
     }
-    Node node;
     if (first == last)
     {
-        node = *last;
+        const auto del_val = last->value;
         delete last;
         first = last = nullptr;
         --size;
-        std::cout << "Last item: " << node.value << " deleted, the list becomes empty\n";
-        return std::make_optional<Node>(node);
+        std::cout << "Last item: " << del_val << " deleted, the list becomes empty\n";
+        return del_val;
     }
     auto previous = first;
     auto current = first->next;
@@ -168,32 +166,32 @@ std::optional<Node> LinkedList::removeLast()
         current = current->next;
     }
     current->next = nullptr;
-    node = *current;
+    const auto del_val = current->value;
     delete current;
     last = previous;
     last->next = nullptr;
     --size;
-    std::cout << "Last item: " << node.value << " deleted\n";
+    std::cout << "Last item: " << del_val << " deleted\n";
 
-    return std::make_optional<Node>(node);
+    return del_val;
 }
 
-std::optional<Node> LinkedList::removeAt(const int index)
+int LinkedList::removeAt(const int index)
 {
     if (isEmpty())
     {
         std::cout << "This list is empty, unable to remove the item at position: " << index << '\n';
-        return std::nullopt;
+        return INVALID_NODE_VALUE;
     }
     if (index < 0)
     {
         std::cerr << "Invalid index: " << index << " to remove item\n";
-        return std::nullopt;
+        return INVALID_NODE_VALUE;
     }
     if (index >= size)
     {
         std::cerr << "Invalid index: " << index << " to remove item, index must be in: [" << 0 << '-' << size-1 << "]\n";
-        return std::nullopt;
+        return INVALID_NODE_VALUE;
     }
 
     if (index == 0)
@@ -215,13 +213,13 @@ std::optional<Node> LinkedList::removeAt(const int index)
     }
     auto next = current->next;
     current->next = nullptr;
-    Node node = *current;
+    const auto del_val = current->value;
     delete current;
     previous->next = next;
     --size;
-    std::cout << "Item: " << node.value << " at position: " << index << " deleted\n";
+    std::cout << "Item: " << del_val << " at position: " << index << " deleted\n";
 
-    return std::make_optional<Node>(node);
+    return del_val;
 }
 
 std::unique_ptr<int[]> LinkedList::toArray() const
