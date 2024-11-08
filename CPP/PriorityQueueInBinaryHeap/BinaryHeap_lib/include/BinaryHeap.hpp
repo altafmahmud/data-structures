@@ -14,7 +14,7 @@ public:
         this->m_container = rhs.m_container;
         this->m_indexMap = rhs.m_indexMap;
     }
-
+    
     ~BinaryHeap() = default;
 
     BinaryHeap<T, Compare> &operator=(const BinaryHeap<T, Compare> &rhs)
@@ -68,7 +68,7 @@ public:
         remove(element);
     }
 
-    [[nodiscard]] const T &at(const int index) const
+    [[nodiscard]] const T& at(const int index) const
     {
         if (m_container.empty() || index < 0)
         {
@@ -135,7 +135,7 @@ private:
     {
         if (index1 == index2)
         {
-            return;
+            throw std::invalid_argument("1st Index: " + std::to_string(index1) + "2nd Index " + std::to_string(index2) + ": invalid for swapping\n");
         }
         auto temp = m_container[index1];
         m_container[index1] = m_container[index2];
