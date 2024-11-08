@@ -1,0 +1,3 @@
+add_library(SingleLinkedList src/SingleLinkedList.cpp)
+
+target_include_directories(SingleLinkedList PUBLIC include)
