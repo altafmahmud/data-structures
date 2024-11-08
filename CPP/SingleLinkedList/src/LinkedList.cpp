@@ -12,8 +12,13 @@ LinkedList::~LinkedList()
     clear();
 }
 
-void LinkedList::addLast(const int value)
+bool LinkedList::addLast(const int value)
 {
+    if (value == DEFAULT_NODE_VALUE)
+    {
+        std::cerr << "Invalid value to be added: " << value << '\n';
+        return false;
+    }
     Node *node = new Node(value);
     node->next = nullptr;
     if (isEmpty())
@@ -26,10 +31,17 @@ void LinkedList::addLast(const int value)
         last = node;
     }
     ++size;
+
+    return true;
 }
 
-void LinkedList::addFirst(const int value)
+bool LinkedList::addFirst(const int value)
 {
+    if (value == DEFAULT_NODE_VALUE)
+    {
+        std::cerr << "Invalid value to be added: " << value << '\n';
+        return false;
+    }
     Node *node = new Node(value);
     if (isEmpty())
     {
@@ -42,6 +54,8 @@ void LinkedList::addFirst(const int value)
         first = node;
     }
     ++size;
+
+    return true;
 }
 
 bool LinkedList::addAt(const int index, const int value)
@@ -58,13 +72,11 @@ bool LinkedList::addAt(const int index, const int value)
     }
     if (index == 0)
     {
-        addFirst(value);
-        return true;
+        return addFirst(value);
     }
     if (index == size)
     {
-        addLast(value);
-        return true;
+        return addLast(value);
     }
     auto node = new Node(value);
     auto previous = first;

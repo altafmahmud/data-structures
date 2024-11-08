@@ -37,8 +37,8 @@ public:
     LinkedList(const LinkedList &) = delete;
     ~LinkedList();
 
-    void addLast(const int);
-    void addFirst(const int);
+    bool addLast(const int);
+    bool addFirst(const int);
     bool addAt(const int, const int);
     int indexOf(const int) const;
     bool contains(const int) const;
