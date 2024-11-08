@@ -135,7 +135,7 @@ private:
     {
         if (index1 == index2)
         {
-            return;
+            throw std::invalid_argument("1st Index: " + std::to_string(index1) + "2nd Index " + std::to_string(index2) + ": invalid for swapping\n");
         }
         auto temp = m_container[index1];
         m_container[index1] = m_container[index2];
