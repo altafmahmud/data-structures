@@ -23,13 +23,8 @@ struct Node
 
 class LinkedList
 {
-private:
-    int size;
-    Node *first;
-    Node *last;
-
 public:
-    LinkedList();
+    LinkedList() noexcept;
     LinkedList(const LinkedList &) = delete;
     ~LinkedList();
 
@@ -57,6 +52,38 @@ public:
     void clear();
 
     friend std::ostream &operator<<(std::ostream &, const LinkedList &);
+
+    class Iterator
+    {
+    public:
+        Iterator() noexcept;
+        Iterator(const Node*) noexcept;
+
+        Iterator& operator=(const Node*);
+        Iterator& operator+(const unsigned);
+        Iterator& operator++();
+        Iterator operator++(int);
+        bool operator!=(const Iterator&);
+        int operator*();
+
+    private:
+        const Node* m_pCurrentNode;
+    };
+
+    Iterator begin() noexcept
+    {
+        return Iterator(first);
+    }
+
+    Iterator end() noexcept
+    {
+        return Iterator(last->next);
+    }
+
+private:
+    int size;
+    Node *first;
+    Node *last;    
 };
 
 inline std::ostream &operator<<(std::ostream &os, const LinkedList &linkedList)
