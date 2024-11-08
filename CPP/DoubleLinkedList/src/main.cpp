@@ -12,16 +12,16 @@ int main()
         linkedList.addFirst(5);
         std::cout << "List before adding 15 at position 2:\n"
                   << linkedList << '\n';
-        linkedList.add(2, 15);
+        linkedList.addAt(2, 15);
         std::cout << "List after adding 15 at position 2:\n"
                   << linkedList << '\n';
-        linkedList.add(4, 25);
+        linkedList.addAt(4, 25);
         std::cout << "List after adding 25 at position 4:\n"
                   << linkedList << '\n';
-        linkedList.add(0, 1);
+        linkedList.addAt(0, 1);
         std::cout << "List after adding 1 at position 0:\n"
                   << linkedList << '\n';
-        linkedList.add(10, 30);
+        linkedList.addAt(10, 30);
         std::cout << "List after adding 30 at position 10:\n"
                   << linkedList << '\n';
     }
@@ -74,6 +74,26 @@ int main()
     std::cout << "After removing node 50:\n"
               << linkedList;
     std::cout << '\n';
+
+    linkedList.addLast(10);
+    linkedList.addLast(20);
+    linkedList.addFirst(5);
+    linkedList.addAt(2, 15);
+    std::cout << "The list:\n" << linkedList << '\n';
+    std::cout << "The size of list: " << linkedList.getSize() << '\n';
+    linkedList.removeAt(1);
+    std::cout << "After removing node: 10 at position: 1\n"
+              << linkedList;
+    linkedList.removeAt(2);
+    std::cout << "After removing node: 20 at position 2:\n"
+              << linkedList;
+    linkedList.removeAt(1);
+    std::cout << "After removing node: 15 at position 1:\n"
+              << linkedList;
+    linkedList.removeAt(0);
+    std::cout << "After removing node: 5 at position 0:\n"
+              << linkedList;
+    std::cout << '\n';              
 
     linkedList.addLast(10);
     linkedList.addLast(20);
