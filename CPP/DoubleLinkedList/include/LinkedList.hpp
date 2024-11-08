@@ -30,7 +30,7 @@ struct Node
 class LinkedList
 {
 private:
-    int deleteNode(Node*);
+    int deleteNode(Node *);
     int size;
     Node *first;
     Node *last;
@@ -58,12 +58,40 @@ public:
     int remove(const int);
     int removeAt(const int);
     std::unique_ptr<int[]> toArray() const;
-    int& getKthNodeFromTheEnd(const int) const;
+    int &getKthNodeFromTheEnd(const int) const;
+    int &getAt(const int) const;
     void reverse();
     const std::string toString() const;
     void clear();
 
     friend std::ostream &operator<<(std::ostream &, const LinkedList &);
+
+    class Iterator
+    {
+    public:
+        Iterator() noexcept;
+        Iterator(const Node*) noexcept;
+
+        Iterator& operator=(const Node*);
+        Iterator& operator+(const unsigned);
+        Iterator& operator++();
+        Iterator operator++(int);
+        bool operator!=(const Iterator&);
+        int operator*();
+
+    private:
+        const Node* m_pCurrentNode;
+    };
+
+    Iterator begin() noexcept
+    {
+        return Iterator(first);
+    }
+
+    Iterator end() noexcept
+    {
+        return Iterator(last->next);
+    }    
 };
 
 inline std::ostream &operator<<(std::ostream &os, const LinkedList &linkedList)
