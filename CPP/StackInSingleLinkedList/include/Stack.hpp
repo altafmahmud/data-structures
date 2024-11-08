@@ -10,19 +10,14 @@ public:
     StackInSingleLinkedList(const StackInSingleLinkedList &) = delete;
     ~StackInSingleLinkedList() = default;
 
-    bool isEmpty() const noexcept
+    constexpr bool isEmpty() const noexcept
     {
         return m_singleLinkedList.isEmpty();
     }
 
     void push(const int);
     void pop();
-    const int top() const;
-
-    constexpr bool isEmpty() const noexcept
-    {
-        return m_singleLinkedList.getSize() != 0;
-    }
+    const int& top() const;
 
     constexpr int getSize() const noexcept
     {

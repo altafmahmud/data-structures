@@ -16,16 +16,21 @@ void StackInSingleLinkedList::pop()
     (del_val == INVALID_NODE_VALUE) ? std::cout << "No value popped\n" : std::cout << "Value: " << del_val << " popped\n";
 }
 
-const int StackInSingleLinkedList::top() const
+const int& StackInSingleLinkedList::top() const
 {
     if (m_singleLinkedList.isEmpty())
     {
         throw std::out_of_range("Empty stack");
     }
     const auto top_idx = m_singleLinkedList.getSize() - 1;
-    const auto value = m_singleLinkedList.getAt(top_idx);
+    const auto& opt_node = m_singleLinkedList.getAt(top_idx);
+    if (!opt_node.has_value())
+    {
+        throw std::runtime_error("No item found!");
+    }
+    const auto& node = opt_node.value();
 
-    return value;
+    return node.value;
 }
 
 void StackInSingleLinkedList::printStack(const bool toString) const

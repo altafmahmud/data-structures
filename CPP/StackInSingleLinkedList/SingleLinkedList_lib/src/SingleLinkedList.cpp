@@ -249,26 +249,28 @@ const std::string LinkedList::toString() const
     return list_str;
 }
 
-int LinkedList::getAt(const int index) const
+std::optional<Node> LinkedList::getAt(const int index) const
 {
     if (isEmpty())
     {
         std::cout << "This list is empty, unable to get the item at position: " << index << '\n';
-        return INVALID_NODE_VALUE;
+        return std::nullopt;
     }
     if (index < 0 || index >= size)
     {
         std::cerr << "Invalid index: " << index << " to get an item, index must be in: [" << 0 << '-' << size - 1 << "]\n";
-        return INVALID_NODE_VALUE;
+        return std::nullopt;
     }
 
     if (index == 0)
     {
-        return first->value;
+        const auto& node = *first;
+        return std::make_optional<Node>(node);
     }
     if (index == size - 1)
     {
-        return last->value;
+        const auto& node = *last;
+        return std::make_optional<Node>(node);
     }
     unsigned idx = 1;
     auto current = first->next;
@@ -277,8 +279,8 @@ int LinkedList::getAt(const int index) const
         current = current->next;
         ++idx;
     }
-
-    return current->value;
+    const auto& node = *current;
+    return std::make_optional<Node>(node);
 }
 
 int LinkedList::getKthNodeFromTheEnd(const int k) const
