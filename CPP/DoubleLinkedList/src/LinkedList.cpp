@@ -2,6 +2,8 @@
 
 #include "LinkedList.hpp"
 
+#include <variant>
+
 LinkedList::LinkedList() : size(0)
 {
     first = last = nullptr;
@@ -20,7 +22,6 @@ bool LinkedList::isEmpty() const
 void LinkedList::addLast(const int value)
 {
     Node* node = new Node(value);
-    node->prev = node->next = nullptr;
     if (isEmpty()) {
         first = last = node;
     } else {
@@ -34,7 +35,6 @@ void LinkedList::addLast(const int value)
 void LinkedList::addFirst(const int value)
 {
     Node* node = new Node(value);
-    node->prev = node->next = nullptr;
     if (isEmpty()) {
         first = last = node;
     } else {
@@ -43,6 +43,41 @@ void LinkedList::addFirst(const int value)
         first = node;
     }
     ++size;
+}
+
+void LinkedList::add(const int index, const int value)
+{
+    if (index < 0) {
+        throw std::invalid_argument("Invalid index: " + std::to_string(index));
+    }
+    else if (index > size) {
+        throw std::invalid_argument("Invalid index: " + std::to_string(index) + ", greater than list size: " + std::to_string(size));
+    }
+    if (index == 0) {
+        addFirst(value);
+    }
+    else if (index == size) {
+        addLast(value);
+    }
+    else {
+        Node *node = new Node(value);
+        unsigned idx = 0;
+        auto current = first;
+        while (current != nullptr && idx < index) {
+            current = current->next;
+            ++idx;
+        }
+        if (current == nullptr) {
+            delete node;
+            throw std::bad_variant_access();
+        }
+        auto previous = current->prev;
+        previous->next = node;
+        current->prev = node;
+        node->prev = previous;
+        node->next = current;
+        ++size;
+    }
 }
 
 int LinkedList::indexOf(const int value) const
@@ -125,12 +160,14 @@ std::optional<Node> LinkedList::remove(const int value) {
         return removeFirst();
     }
     auto current = first;
-    auto previous = current->prev;
     while (current != nullptr && current->value != value) {
-        previous = current;
         current = current->next;
     }
+    if (current == last) {
+        return removeLast();
+    }
     if (current != nullptr) {
+        auto previous = current->prev;
         auto next = current->next;
         previous->next = next;
         next->prev = previous;

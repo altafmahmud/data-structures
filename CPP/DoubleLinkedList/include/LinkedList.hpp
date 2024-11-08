@@ -37,6 +37,7 @@ public:
 
     void addLast(const int);
     void addFirst(const int);
+    void add(const int, const int);
     int indexOf(const int) const;
     bool contains(const int) const;
     int getSize() const {
