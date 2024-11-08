@@ -4,7 +4,7 @@ int main()
 {
     BinaryHeap<int> binMinHeap;
     std::vector<int> int_vec = {11, 12, 13, 19, 14, 5, 7, 8, 12, 6};
-    binMinHeap.bulkInsert(int_vec);
+    binMinHeap.arrayInsert(int_vec);
     std::cout << "Min heap after bulk insertion: " << binMinHeap << '\n';
     binMinHeap.insert(1);
     binMinHeap.insert(13);
@@ -18,7 +18,7 @@ int main()
     std::cout << "Min heap after polling: " << binMinHeap << '\n';
 
     BinaryHeap<int, std::greater<int>> binMaxHeap;
-    binMaxHeap.bulkInsert(int_vec);
+    binMaxHeap.arrayInsert(int_vec);
     std::cout << "Max heap after bulk insertion: " << binMaxHeap << '\n';
     binMaxHeap.insert(1);
     binMaxHeap.insert(13);
