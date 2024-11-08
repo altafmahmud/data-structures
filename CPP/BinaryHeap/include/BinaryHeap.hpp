@@ -145,24 +145,46 @@ private:
 
     void swapIndices(const unsigned index1, const unsigned index2)
     {
+        const auto &element1 = m_container.at(index1);
+        const auto &element2 = m_container.at(index2);
         auto itr1 = m_indexMap.end();
         auto itr2 = m_indexMap.end();
         auto count = 0;
-        for (auto itr = m_indexMap.begin(); itr != m_indexMap.end(); ++itr)
+        auto range = m_indexMap.equal_range(element1);
+        for (auto itr = range.first; itr != range.second && count < 2; ++itr)
         {
             if (itr->second == index1)
             {
                 itr1 = itr;
                 ++count;
             }
+            // if indices of two but elements with the same value being swapped here
             else if (itr->second == index2)
             {
                 itr2 = itr;
                 ++count;
             }
-            if (count == 2)
+        }
+        if (count < 2)
+        {
+            range = m_indexMap.equal_range(element2);
+            // values are swapped already, check which iterator (1 or 2) to be assigned
+            const auto index_to_compare = (itr1 == m_indexMap.end()) ? index1 : index2;
+            for (auto itr = range.first; itr != range.second && count < 2; ++itr)
             {
-                break;
+                if (itr->second == index_to_compare)
+                {
+                    if (itr2 == m_indexMap.end())
+                    {
+                        itr2 = itr;
+                        ++count;
+                    }
+                    else if (itr1 == m_indexMap.end())
+                    {
+                        itr1 = itr;
+                        ++count;
+                    }
+                }
             }
         }
         const auto temp = itr1->second;
