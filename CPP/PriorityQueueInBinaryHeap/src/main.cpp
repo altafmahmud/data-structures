@@ -31,7 +31,7 @@ int main()
 
     PriorityQueue<int, std::greater<int>> maxQueue;
     std::vector<int> int_vec = {2, 5, 3, 17, 10, 11, 7};
-    maxQueue.bulkPush(int_vec);
+    maxQueue.arrayPush(int_vec);
     std::cout << "Max PQ after pushing some values:\n";
     printPQ(maxQueue.container());
     const auto &maxPQtop = maxQueue.top();
@@ -44,7 +44,7 @@ int main()
     printPQ(maxQueue.container());
 
     minQueue.clear();
-    minQueue.bulkPush(int_vec);
+    minQueue.arrayPush(int_vec);
     PriorityQueue<int> minQueueCopy = minQueue;
     std::cout << "Copy of min PQ\n";
     printPQ(minQueueCopy.container());
@@ -56,7 +56,7 @@ int main()
     printPQ(minQueueCopy.container());
 
     maxQueue.clear();
-    maxQueue.bulkPush(int_vec);
+    maxQueue.arrayPush(int_vec);
     PriorityQueue<int, std::greater<int>> maxQueueCopy;
     maxQueueCopy = maxQueue;
     std::cout << "Copy of max PQ\n";

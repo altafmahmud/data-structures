@@ -25,9 +25,9 @@ public:
         m_binHeap.insert(element);
     }
 
-    void bulkPush(const std::vector<T> &vec)
+    void arrayPush(const std::vector<T> &vec)
     {
-        m_binHeap.bulkInsert(vec);
+        m_binHeap.arrayInsert(vec);
     }
 
     [[nodiscard]] const T &top() const

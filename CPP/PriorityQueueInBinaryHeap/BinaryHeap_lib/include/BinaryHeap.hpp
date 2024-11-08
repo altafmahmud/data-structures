@@ -39,7 +39,7 @@ public:
         }
     }
 
-    void bulkInsert(const std::vector<T> vec)
+    void arrayInsert(const std::vector<T> vec)
     {
         for (const auto &element : vec)
         {
