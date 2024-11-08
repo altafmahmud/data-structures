@@ -2,7 +2,6 @@
 #include <vector>
 #include <algorithm>
 #include <unordered_map>
-#include <optional>
 #include <stdexcept>
 
 template <typename T, typename Compare = std::less<T>>
@@ -21,12 +20,10 @@ public:
     {
         m_container.push_back(element);
         m_indexMap.emplace(std::make_pair(element, m_container.size() - 1));
-        const auto &parent_opt = getParent(m_container.size() - 1);
-        if (parent_opt.has_value())
+        const auto parentIndex = getParentIndex(m_container.size() - 1);
+        if (parentIndex >= 0)
         {
-            const auto &parent_idx_pair = parent_opt.value();
-            const auto parentIdx = parent_idx_pair.second;
-            bubbleUp(m_container.size() - 1, parentIdx);
+            bubbleUp(m_container.size() - 1, parentIndex);
         }
     }
 
@@ -59,49 +56,54 @@ public:
         remove(element);
     }
 
-    void bubbleUp(const unsigned childIndex, const unsigned parentIndex)
+    void bubbleUp(const int childIndex, const int parentIndex)
     {
+        if (parentIndex < 0 || parentIndex >= m_container.size())
+        {
+            throw std::out_of_range("Parent index: " + std::to_string(parentIndex) + " for bubble up");
+        }
+        if (childIndex < 0 || parentIndex >= m_container.size())
+        {
+            throw std::out_of_range("Child index: " + std::to_string(parentIndex) + " for bubble up");
+        }        
         auto childIdx = childIndex;
         auto parentIdx = parentIndex;
-        const auto child = m_container[childIdx];
-        auto parent = m_container[parentIdx];
-        while (compare(child, parent))
+        auto pChild = &m_container[childIdx];
+        auto pParent = &m_container[parentIdx];
+        while (compare(*pChild, *pParent))
         {
             swapElements(childIdx, parentIdx);
             childIdx = parentIdx;
-            const auto &parent_opt = getParent(childIdx);
-            if (!parent_opt.has_value())
+            parentIdx = getParentIndex(childIdx);
+            if (parentIdx < 0)
             {
                 break;
             }
-            const auto &parent_idx_pair = parent_opt.value();
-            parent = parent_idx_pair.first;
-            parentIdx = parent_idx_pair.second;
+            pParent = &m_container[parentIdx];
+            pChild = &m_container[childIdx];
         }
     }
 
-    void bubbleDown(const unsigned parentIndex)
+    void bubbleDown(const int parentIndex)
     {
-        if (parentIndex >= m_container.size())
+        if (parentIndex < 0 || parentIndex >= m_container.size())
         {
-            throw std::out_of_range("Parent index: " + std::to_string(parentIndex) + " for bubble up");
+            throw std::out_of_range("Parent index: " + std::to_string(parentIndex) + " for bubble down");
         }
         auto parentIdx = parentIndex;
         while (true)
         {
-            const auto &parent = m_container[parentIdx];
-            const auto child1_opt = getChild(parentIdx, 1);
-            if (!child1_opt.has_value())
+            const auto pParent = &m_container[parentIdx];
+            const auto child1_index = getChildIndex(parentIdx, 1);
+            if (child1_index < 0)
             {
                 break;
             }
-            const auto child1_index_pair = child1_opt.value();
-            const auto child1 = child1_index_pair.first;
-            const auto child1_index = child1_index_pair.second;
-            const auto child2_opt = getChild(parentIdx, 2);
-            if (!child2_opt.has_value())
+            const auto pChild1 = &m_container[child1_index];
+            const auto child2_index = getChildIndex(parentIdx, 2);
+            if (child2_index < 0)
             {
-                if (compare(child1, parent))
+                if (compare(*pChild1, *pParent))
                 {
                     // only one child
                     swapElements(parentIdx, child1_index);
@@ -109,16 +111,14 @@ public:
                 }
                 break;
             }
-            const auto child2_index_pair = child2_opt.value();
-            const auto child2 = child2_index_pair.first;
-            const auto child2_index = child2_index_pair.second;
-            if (!compare(child1, parent) && !compare(child2, parent))
+            const auto pChild2 = &m_container[child2_index];
+            if (!compare(*pChild1, *pParent) && !compare(*pChild2, *pParent))
             {
                 break;
             }
-            if (compare(child1, parent) && compare(child2, parent))
+            if (compare(*pChild1, *pParent) && compare(*pChild2, *pParent))
             {
-                if (compare(child1, child2))
+                if (compare(*pChild1, *pChild2))
                 {
                     swapElements(parentIdx, child1_index);
                     parentIdx = child1_index;
@@ -128,7 +128,7 @@ public:
                 parentIdx = child2_index;
                 continue;
             }
-            if (compare(child1, parent))
+            if (compare(*pChild1, *pParent))
             {
                 swapElements(parentIdx, child1_index);
                 parentIdx = child1_index;
@@ -177,28 +177,36 @@ private:
         return os;
     }
 
-    [[nodiscard]] std::optional<std::pair<const T &, unsigned>> getParent(const unsigned childIndex) const
+    [[nodiscard]] int getParentIndex(const int childIndex) const
     {
+        if (childIndex < 0)
+        {
+            throw std::out_of_range("Invalid child index: " + std::to_string(childIndex) + " to get the parent\n");
+        }
         if (childIndex == 0)
         {
-            return {};
+            return -1;
         }
         const auto parent_index = (childIndex - 1) / 2;
-        const auto &parent = m_container[parent_index];
-        const auto parent_idx_pair = std::make_pair(parent, parent_index);
-        return std::make_optional(parent_idx_pair);
+        return parent_index;
     }
 
-    [[nodiscard]] std::optional<std::pair<const T &, unsigned>> getChild(const unsigned parentIndex, const unsigned childRoll) const
+    [[nodiscard]] int getChildIndex(const int parentIndex, const unsigned childRoll) const
     {
+        if (parentIndex < 0 || parentIndex >= m_container.size())
+        {
+            throw std::out_of_range("Invalid parent index: " + std::to_string(parentIndex) + " to get child\n");
+        }
+        if (childRoll != 1 && childRoll != 2)
+        {
+            throw std::out_of_range("Invalid child roll: " + std::to_string(childRoll) + " to get child\n");
+        }
         const auto childIndex = 2 * parentIndex + childRoll;
         if (childIndex >= m_container.size())
         {
-            return {};
+            return -1;
         }
-        const auto &child = m_container[childIndex];
-        const auto &child_idx_pair = std::make_pair(child, childIndex);
-        return std::make_optional(child_idx_pair);
+        return childIndex;
     }
 
     void swapElements(const unsigned index1, const unsigned index2)
@@ -255,6 +263,6 @@ private:
     }
 
     std::vector<T> m_container;
-    std::unordered_multimap<T, unsigned> m_indexMap;
+    std::unordered_multimap<T, int> m_indexMap;
     Compare compare;
 };
