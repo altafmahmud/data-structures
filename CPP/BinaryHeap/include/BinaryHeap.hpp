@@ -80,7 +80,7 @@ public:
 
     [[nodiscard]] constexpr bool isEmpty() const noexcept
     {
-        return m_container.isEmpty();
+        return m_container.empty();
     }
 
     void clear()
