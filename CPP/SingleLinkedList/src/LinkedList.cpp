@@ -137,8 +137,8 @@ std::optional<Node> LinkedList::removeFirst()
     node = *first;
     delete first;
     first = second_item;
-    std::cout << "First item: " << node.value << " deleted\n";
     --size;
+    std::cout << "First item: " << node.value << " deleted\n";
 
     return std::make_optional<Node>(node);
 }
