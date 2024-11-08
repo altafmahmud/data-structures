@@ -17,7 +17,7 @@ public:
 
     void enqueue(const int);
     void dequeue();
-    const int& peek() const;
+    const int &peek() const;
 
     constexpr int getSize() const noexcept
     {

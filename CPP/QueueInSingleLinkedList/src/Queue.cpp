@@ -7,30 +7,30 @@
 
 void QueueInSingleLinkedList::enqueue(const int value)
 {
-    m_singleLinkedList.addLast(value);
+    if (m_singleLinkedList.addLast(value))
+    {
+        std::cout << "Enqueued: " << value << '\n';
+    }
 }
 
 void QueueInSingleLinkedList::dequeue()
 {
-    const auto del_val = m_singleLinkedList.removeLast();
-    (del_val == INVALID_NODE_VALUE) ? std::cout << "No value popped\n" : std::cout << "Value: " << del_val << " popped\n";
+    if (isEmpty())
+    {
+        throw std::out_of_range("Empty queue");
+    }
+    m_singleLinkedList.removeFirst();
 }
 
-const int& QueueInSingleLinkedList::peek() const
+const int &QueueInSingleLinkedList::peek() const
 {
-    if (m_singleLinkedList.isEmpty())
+    if (isEmpty())
     {
-        throw std::out_of_range("Empty stack");
+        throw std::out_of_range("Empty queue");
     }
-    const auto top_idx = m_singleLinkedList.getSize() - 1;
-    const auto& opt_node = m_singleLinkedList.getAt(top_idx);
-    if (!opt_node.has_value())
-    {
-        throw std::runtime_error("No item found!");
-    }
-    const auto& node = opt_node.value();
+    const auto &value = m_singleLinkedList.getAt(0);
 
-    return node.value;
+    return value;
 }
 
 void QueueInSingleLinkedList::printQueue(const bool toString) const
