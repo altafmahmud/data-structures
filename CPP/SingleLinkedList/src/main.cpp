@@ -85,11 +85,11 @@ int main()
     std::cout << "Current linked list:\n"
               << linkedList << '\n';
     value = 2;
-    std::cout << value << "th node from the last: " << linkedList.getKthNodeFromTheEnd(value) << '\n';
+    std::cout << value << "th node from the end: " << linkedList.getKthNodeFromTheEnd(value) << '\n';
     linkedList.reverse();
     std::cout << "Reversed linked list:\n"
               << linkedList << '\n';
-    std::cout << value << "th node from the last: " << linkedList.getKthNodeFromTheEnd(value) << '\n';
+    std::cout << value << "th node from the end: " << linkedList.getKthNodeFromTheEnd(value) << '\n';
 
     return 0;
 }
