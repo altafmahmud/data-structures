@@ -11,7 +11,7 @@ public:
     constexpr BinaryHeap() = default;
     BinaryHeap(const BinaryHeap &rhs)
     {
-        const auto &rhs_container = rhs.getContainer();
+        const auto &rhs_container = rhs.container();
         std::copy(rhs_container.cbegin(), rhs_container.cend(), std::back_inserter(this->m_container));
     }
     ~BinaryHeap() = default;
