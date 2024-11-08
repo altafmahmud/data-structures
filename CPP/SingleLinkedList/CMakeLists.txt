@@ -6,4 +6,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_BUILD_TYPE RelWithDebInfo)
 
-add_executable(SingleLinkedList main.cpp LinkedList.cpp)
+add_executable(SingleLinkedList src/main.cpp src/LinkedList.cpp)
+
+target_include_directories(SingleLinkedList PRIVATE include)

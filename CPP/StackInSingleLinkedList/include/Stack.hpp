@@ -10,6 +10,7 @@ public:
     ~StackInSingleLinkedList() = default;
 
     void push(const int);
+    void pop();
     void printStack() const;
 };
 

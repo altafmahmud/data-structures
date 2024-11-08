@@ -15,5 +15,15 @@ int main()
     stack.printStack();
     std::cout << "***************\n\n";
 
+    stack.pop();
+    std::cout << "After popping\n";
+    stack.printStack();
+    stack.pop();
+    std::cout << "After popping\n";
+    stack.printStack();
+    stack.pop();
+    std::cout << "After popping\n";
+    stack.printStack();
+
     return 0;
 }
