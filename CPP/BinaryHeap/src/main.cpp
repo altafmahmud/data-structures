@@ -43,5 +43,8 @@ int main()
     binMaxHeapCopy.poll();
     std::cout << "Max heap copy after polling: " << binMaxHeapCopy << '\n';
 
+    BinaryHeap<int, std::greater<int>> movedBinMaxHeap(std::move(binMaxHeapCopy));
+    std::cout << "Moved max heap: " << movedBinMaxHeap << '\n';
+
     return 0;
 }
