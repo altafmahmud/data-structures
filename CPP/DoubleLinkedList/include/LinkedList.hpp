@@ -1,9 +1,8 @@
 #include <iostream>
 #include <memory>
 #include <limits>
-#include <optional>
 
-constexpr int DEFAULT_NODE_VALUE = std::numeric_limits<int>::lowest();
+constexpr int INVALID_NODE_VALUE = std::numeric_limits<int>::lowest();
 
 struct Node
 {
@@ -13,7 +12,7 @@ struct Node
 
     Node()
     {
-        this->value = DEFAULT_NODE_VALUE;
+        this->value = INVALID_NODE_VALUE;
         resetLinks();
     }
 
