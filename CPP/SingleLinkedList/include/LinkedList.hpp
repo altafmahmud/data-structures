@@ -1,10 +1,19 @@
 #include <iostream>
 #include <memory>
+#include <limits>
+
+constexpr int DEFAULT_NODE_VALUE = std::numeric_limits<int>::lowest();
 
 struct Node {
     int value;
     Node* next;
-    Node(const int value) {
+    
+    Node() {
+        value = DEFAULT_NODE_VALUE;
+        next = nullptr;
+    }
+
+    Node(const int value): Node() {
         this->value = value;
     }
 };
@@ -22,6 +31,7 @@ public:
 
     void addLast(const int);
     void addFirst(const int);
+    bool addAt(const int, const int);
     int indexOf(const int) const;
     bool contains(const int) const;
     int getSize() const {
