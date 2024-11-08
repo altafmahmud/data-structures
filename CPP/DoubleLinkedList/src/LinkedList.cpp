@@ -48,10 +48,10 @@ void LinkedList::addFirst(const int value)
 void LinkedList::add(const int index, const int value)
 {
     if (index < 0) {
-        throw std::invalid_argument("Invalid index: " + std::to_string(index));
+        throw std::invalid_argument("Invalid index: " + std::to_string(index) + '\n');
     }
     else if (index > size) {
-        throw std::invalid_argument("Invalid index: " + std::to_string(index) + ", greater than list size: " + std::to_string(size));
+        throw std::invalid_argument("Invalid index: " + std::to_string(index) + ", greater than list size: " + std::to_string(size) + '\n');
     }
     if (index == 0) {
         addFirst(value);
@@ -62,10 +62,22 @@ void LinkedList::add(const int index, const int value)
     else {
         Node *node = new Node(value);
         unsigned idx = 0;
-        auto current = first;
-        while (current != nullptr && idx < index) {
-            current = current->next;
-            ++idx;
+        Node* current = nullptr;
+        if (index <= size / 2) {
+            current = first;
+            while (current != nullptr && idx < index)
+            {
+                current = current->next;
+                ++idx;
+            }
+        } else {
+            idx = size-1;
+            current = last;
+            while (current != nullptr && idx > index)
+            {
+                current = current->prev;
+                --idx;
+            }            
         }
         if (current == nullptr) {
             delete node;
