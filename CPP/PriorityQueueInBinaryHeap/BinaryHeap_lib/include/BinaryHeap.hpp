@@ -14,7 +14,7 @@ public:
         this->m_container = rhs.m_container;
         this->m_indexMap = rhs.m_indexMap;
     }
-    
+
     ~BinaryHeap() = default;
 
     BinaryHeap<T, Compare> &operator=(const BinaryHeap<T, Compare> &rhs)
@@ -68,7 +68,7 @@ public:
         remove(element);
     }
 
-    [[nodiscard]] const T& at(const int index) const
+    [[nodiscard]] const T &at(const int index) const
     {
         if (m_container.empty() || index < 0)
         {
