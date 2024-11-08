@@ -49,6 +49,7 @@ public:
     }
     std::optional<Node> removeFirst();
     std::optional<Node> removeLast();
+    std::optional<Node> removeAt(const int);
     std::unique_ptr<int[]> toArray() const;
     int getKthNodeFromTheEnd(const int) const;
     void reverse();

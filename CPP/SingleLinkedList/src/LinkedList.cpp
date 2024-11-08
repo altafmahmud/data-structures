@@ -178,6 +178,52 @@ std::optional<Node> LinkedList::removeLast()
     return std::make_optional<Node>(node);
 }
 
+std::optional<Node> LinkedList::removeAt(const int index)
+{
+    if (isEmpty())
+    {
+        std::cout << "This list is empty, unable to remove the item at position: " << index << '\n';
+        return std::nullopt;
+    }
+    if (index < 0)
+    {
+        std::cerr << "Invalid index: " << index << " to remove item\n";
+        return std::nullopt;
+    }
+    if (index >= size)
+    {
+        std::cerr << "Invalid index: " << index << " to remove item, index must be in: [" << 0 << '-' << size-1 << "]\n";
+        return std::nullopt;
+    }
+
+    if (index == 0)
+    {
+        return removeFirst();
+    }
+    if (index == size-1)
+    {
+        return removeLast();
+    }
+    unsigned idx = 1;
+    auto previous = first;
+    auto current = first->next;
+    while (current != last && idx < index)
+    {
+        previous = current;
+        current = current->next;
+        ++idx;
+    }
+    auto next = current->next;
+    current->next = nullptr;
+    Node node = *current;
+    delete current;
+    previous->next = next;
+    --size;
+    std::cout << "Item: " << node.value << " at position: " << index << " deleted\n";
+
+    return std::make_optional<Node>(node);
+}
+
 std::unique_ptr<int[]> LinkedList::toArray() const
 {
     std::unique_ptr<int[]> int_arr = std::make_unique<int[]>(size);
