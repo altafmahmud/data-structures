@@ -68,5 +68,9 @@ int main()
     std::cout << "Copy of max PQ after pop:\n";
     printPQ(maxQueueCopy.container());
 
+    PriorityQueue movedMaxQueue(std::move(maxQueueCopy));
+    std::cout << "Moved max PQ\n";
+    printPQ(movedMaxQueue.container());    
+
     return 0;
 }

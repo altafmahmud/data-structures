@@ -8,6 +8,8 @@ public:
 
     PriorityQueue(const PriorityQueue &rhs) : m_binHeap(rhs.m_binHeap) {}
 
+    PriorityQueue(PriorityQueue &&rhs) noexcept : m_binHeap(std::move(rhs.m_binHeap)) {}
+
     ~PriorityQueue() = default;
 
     PriorityQueue<T, Compare> &operator=(const PriorityQueue<T, Compare> &rhs)
