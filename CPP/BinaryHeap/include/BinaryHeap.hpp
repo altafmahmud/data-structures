@@ -68,11 +68,6 @@ public:
         remove(element);
     }
 
-    void print() const
-    {
-        std::cout << *this;
-    }
-
     [[nodiscard]] std::vector<T> container() const noexcept
     {
         return m_container;
