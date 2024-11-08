@@ -19,7 +19,7 @@ int main()
 
     BinaryHeap<int, std::greater<int>> binMaxHeap;
     binMaxHeap.bulkInsert(int_vec);
-    std::cout << binMinHeap << '\n';
+    std::cout << binMaxHeap << '\n';
     binMaxHeap.insert(1);
     binMaxHeap.insert(13);
     binMaxHeap.insert(4);
