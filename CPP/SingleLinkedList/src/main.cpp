@@ -118,7 +118,7 @@ int main()
     linkedList.addLast(10);
     linkedList.addLast(20);
     linkedList.addFirst(5);
-    auto int_arr = linkedList.toArray();
+    const auto int_arr = linkedList.toArray();
     std::cout << "To array:\n";
     for (auto idx = 0; idx < linkedList.getSize(); ++idx)
     {
