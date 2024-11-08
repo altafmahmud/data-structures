@@ -1,9 +1,8 @@
 #include <iostream>
 #include <memory>
 #include <limits>
-#include <optional>
 
-constexpr int DEFAULT_NODE_VALUE = std::numeric_limits<int>::lowest();
+constexpr int INVALID_NODE_VALUE = std::numeric_limits<int>::lowest();
 
 struct Node
 {
@@ -12,7 +11,7 @@ struct Node
 
     Node()
     {
-        value = DEFAULT_NODE_VALUE;
+        value = INVALID_NODE_VALUE;
         next = nullptr;
     }
 
@@ -25,10 +24,6 @@ struct Node
 class LinkedList
 {
 private:
-    constexpr bool isEmpty() const noexcept
-    {
-        return size == 0;
-    }
     int size;
     Node *first;
     Node *last;
@@ -47,11 +42,16 @@ public:
     {
         return size;
     }
-    std::optional<Node> removeFirst();
-    std::optional<Node> removeLast();
-    std::optional<Node> removeAt(const int);
+    constexpr bool isEmpty() const noexcept
+    {
+        return size == 0;
+    }
+    int removeFirst();
+    int removeLast();
+    int removeAt(const int);
     std::unique_ptr<int[]> toArray() const;
     const std::string toString() const;
+    int getAt(const int) const;
     int getKthNodeFromTheEnd(const int) const;
     void reverse();
     void clear();
