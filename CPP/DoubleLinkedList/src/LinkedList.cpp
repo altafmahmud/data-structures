@@ -344,7 +344,7 @@ const std::string LinkedList::toString() const {
     for (auto node = first; node != nullptr; node = node->next) {
         list_str += std::to_string(node->value);
         if (node->next != nullptr) {
-            list_str += " ";
+            list_str += ", ";
         }
     }
     list_str += "]";
