@@ -65,7 +65,7 @@ public:
         if (childIndex < 0 || parentIndex >= m_container.size())
         {
             throw std::out_of_range("Child index: " + std::to_string(parentIndex) + " for bubble up");
-        }        
+        }
         auto childIdx = childIndex;
         auto parentIdx = parentIndex;
         auto pChild = &m_container[childIdx];
