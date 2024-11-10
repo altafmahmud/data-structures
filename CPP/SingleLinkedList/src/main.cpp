@@ -4,7 +4,7 @@
 
 int main()
 {
-    LinkedList linkedList;
+    LinkedList<float> linkedList;
     linkedList.addLast(10);
     linkedList.addLast(20);
     linkedList.addFirst(5);
@@ -53,11 +53,25 @@ int main()
     std::cout << "The list after adding 25 at index 4:\n"
               << linkedList << '\n';
     std::cout << "The size of the list: " << linkedList.getSize() << '\n';
-    linkedList.addAt(7, 35);
+    try
+    {
+        linkedList.addAt(7, 35);
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
     std::cout << "The list after trying to add 35 at index 7:\n"
               << linkedList << '\n';
     std::cout << "The size of the list: " << linkedList.getSize() << '\n';
-    linkedList.addAt(-1, 35);
+    try
+    {
+        linkedList.addAt(-1, 35);
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
     std::cout << "The list after trying to add 35 at index -1:\n"
               << linkedList << '\n';
     std::cout << "The size of the list: " << linkedList.getSize() << '\n';
@@ -66,36 +80,43 @@ int main()
     linkedList.addLast(10);
     linkedList.addLast(20);
     linkedList.addFirst(5);
-    std::cout << "Current list:\n" << linkedList << '\n';
+    std::cout << "Current list:\n"
+              << linkedList << '\n';
     std::cout << "The size of the list: " << linkedList.getSize() << '\n';
     try
     {
         auto del_val = linkedList.removeAt(1);
-        std::cout << "Current list after removing " << del_val << " from position: 1\n" << linkedList << '\n';
+        std::cout << "Current list after removing " << del_val << " from position: 1\n"
+                  << linkedList << '\n';
         std::cout << "The size of the list: " << linkedList.getSize() << '\n';
         del_val = linkedList.removeAt(4);
-        std::cout << "Current list after removing " << del_val << " from position: 4\n" << linkedList << '\n';
+        std::cout << "Current list after removing " << del_val << " from position: 4\n"
+                  << linkedList << '\n';
         std::cout << "The size of the list: " << linkedList.getSize() << '\n';
         del_val = linkedList.removeAt(0);
-        std::cout << "Current list after removing " << del_val << " from position: 0\n" << linkedList << '\n';
+        std::cout << "Current list after removing " << del_val << " from position: 0\n"
+                  << linkedList << '\n';
         std::cout << "The size of the list: " << linkedList.getSize() << '\n';
         del_val = linkedList.removeAt(5);
-        std::cout << "Current list after removing " << del_val << " from position: 5\n" << linkedList << '\n';
+        std::cout << "Current list after removing " << del_val << " from position: 5\n"
+                  << linkedList << '\n';
         std::cout << "The size of the list: " << linkedList.getSize() << '\n';
         del_val = linkedList.removeAt(5);
-        std::cout << "Current list after removing " << del_val << " from position: 5\n" << linkedList << '\n';
+        std::cout << "Current list after removing " << del_val << " from position: 5\n"
+                  << linkedList << '\n';
         std::cout << "The size of the list: " << linkedList.getSize() << '\n';
         del_val = linkedList.removeAt(-1);
-        std::cout << "Current list after removing " << del_val << " from position: -1\n" << linkedList << '\n';
-        std::cout << "The size of the list: " << linkedList.getSize() << '\n'; 
+        std::cout << "Current list after removing " << del_val << " from position: -1\n"
+                  << linkedList << '\n';
+        std::cout << "The size of the list: " << linkedList.getSize() << '\n';
     }
-    catch (const std::exception& ex)
+    catch (const std::exception &ex)
     {
         std::cout << ex.what() << '\n';
     }
     std::cout << "The size of the list: " << linkedList.getSize() << '\n';
     std::cout << '\n';
-    
+
     linkedList.addLast(10);
     linkedList.addLast(20);
     linkedList.addFirst(5);
@@ -133,23 +154,27 @@ int main()
 
     std::cout << "Current linked list:\n"
               << linkedList << '\n';
-    std::cout << "List to string:\n" << linkedList.toString() << '\n';
+    std::cout << "List to string:\n"
+              << linkedList.toString() << '\n';
     linkedList.reverse();
     std::cout << "Reversed linked list:\n"
               << linkedList << '\n';
-    std::cout << "List to string:\n" << linkedList.toString() << '\n';
+    std::cout << "List to string:\n"
+              << linkedList.toString() << '\n';
     linkedList.reverse();
 
     std::cout << "Current linked list:\n"
               << linkedList << '\n';
-    std::cout << "List to string:\n" << linkedList.toString() << '\n';
-    auto& kth_node_01 = linkedList.getKthNodeFromTheEnd(2);
+    std::cout << "List to string:\n"
+              << linkedList.toString() << '\n';
+    auto &kth_node_01 = linkedList.getKthNodeFromTheEnd(2);
     std::cout << "2nd node from the end: " << kth_node_01 << '\n';
     linkedList.reverse();
     std::cout << "Reversed linked list:\n"
               << linkedList << '\n';
-    std::cout << "List to string:\n" << linkedList.toString() << '\n';
-    auto& kth_node_02 = linkedList.getKthNodeFromTheEnd(2);
+    std::cout << "List to string:\n"
+              << linkedList.toString() << '\n';
+    auto &kth_node_02 = linkedList.getKthNodeFromTheEnd(2);
     std::cout << "2nd node from the end: " << kth_node_02 << '\n';
     kth_node_02 = 50;
     std::cout << "Current linked list after changing the 2nd node value:\n"
@@ -169,6 +194,10 @@ int main()
     {
         std::cerr << e.what() << '\n';
     }
+
+    linkedList.at(4) = 100;
+    std::cout << "Current linked list after changing the value at position 4:\n"
+              << linkedList << '\n';
 
     return 0;
 }
