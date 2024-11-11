@@ -8,24 +8,24 @@ struct Node
     T value;
     Node<T> *next;
 
-    Node()
+    constexpr Node()
     {
         value = {};
         next = nullptr;
     }
 
-    Node(const T &val) : value(val), next(nullptr) {}
+    constexpr Node(const T &val) : value(val), next(nullptr) {}
 
-    Node(const Node<T> &) = delete;
+    constexpr Node(const Node<T> &) = delete;
 };
 
 template <typename T>
 class LinkedList
 {
 public:
-    LinkedList() noexcept : size(0), first(nullptr), last(nullptr) {}
+    constexpr LinkedList() noexcept : size(0), first(nullptr), last(nullptr) {}
 
-    LinkedList(const LinkedList<T> &) = delete;
+    constexpr LinkedList(const LinkedList<T> &) = delete;
 
     LinkedList(LinkedList<T> &&rhs) : LinkedList()
     {
