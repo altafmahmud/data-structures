@@ -27,6 +27,15 @@ public:
 
     LinkedList(const LinkedList<T> &) = delete;
 
+    LinkedList(LinkedList<T> &&rhs) : LinkedList()
+    {
+        for (auto itr = rhs.begin(); itr != rhs.end(); ++itr)
+        {
+            addLast(*itr);
+        }
+        rhs.clear();
+    }
+
     ~LinkedList()
     {
         clear();

@@ -199,5 +199,9 @@ int main()
     std::cout << "Current linked list after changing the value at position 4:\n"
               << linkedList << '\n';
 
+    LinkedList<float> linkedListMoved(std::move(linkedList));
+    std::cout << "Moved Linked List:\n"
+              << linkedListMoved << '\n';
+
     return 0;
 }
