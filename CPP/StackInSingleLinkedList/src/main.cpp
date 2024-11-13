@@ -1,95 +1,57 @@
 #include "Stack.hpp"
 
+template <typename T>
+void printStackDetails(const StackInSingleLinkedList<T> &stack)
+{
+    std::cout << "Stack:\n";
+    stack.printStack();
+    std::cout << "Stack in a string:\n";
+    stack.printStack(true);
+    try
+    {
+        std::cout << "Top of the stack: " << stack.top() << '\n';
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    std::cout << "Stack size: " << stack.getSize() << '\n';
+}
+
 int main()
 {
-    StackInSingleLinkedList stack;
-    std::cout << "Initial stack\n";
-    stack.printStack();
-    stack.printStack(true);
-    std::cout << "\n***************\n\n";
-    stack.push(10);
-    std::cout << "After pushing 10\n";
-    stack.printStack();
-    stack.printStack(true);
     try
     {
-        std::cout << "Top of the stack: " << stack.top() << '\n';
-    }
-    catch (std::exception &ex)
-    {
-        std::cout << ex.what();
-    }
-    std::cout << "\nStack size: " << stack.getSize() << '\n';
-    std::cout << "\n***************\n\n";
-    stack.push(15);
-    std::cout << "After pushing 15\n";
-    stack.printStack();
-    stack.printStack(true);
-    try
-    {
-        std::cout << "Top of the stack: " << stack.top() << '\n';
-    }
-    catch (std::exception &ex)
-    {
-        std::cout << ex.what();
-    }    
-    std::cout << "\nStack size: " << stack.getSize() << '\n';
-    std::cout << "\n***************\n\n";
+        StackInSingleLinkedList<int> stack;
+        std::cout << "Initial stack\n";
+        printStackDetails<int>(stack);
+        std::cout << "***************\n\n";
+        std::cout << "Pushing 10\n";
+        stack.push(10);
+        printStackDetails<int>(stack);
+        std::cout << "***************\n\n";
+        std::cout << "Pushing 15\n";
+        stack.push(15);
+        printStackDetails<int>(stack);
+        std::cout << "***************\n\n";
 
-    try
-    {
-        std::cout << "Top of the stack: " << stack.top() << '\n';
+        std::cout << "Popping: " << stack.top() << '\n';
+        stack.pop();
+        printStackDetails<int>(stack);
+        std::cout << "***************\n\n";
+        std::cout << "Popping: " << stack.top() << '\n';
+        stack.pop();
+        printStackDetails<int>(stack);
+        std::cout << "***************\n\n";
+        std::cout << "Popping: " << stack.top() << '\n';
+        stack.pop();
+        printStackDetails<int>(stack);
+        std::cout << "***************\n\n";
     }
-    catch (std::exception &ex)
+    catch (const std::exception &e)
     {
-        std::cout << ex.what();
+        std::cerr << e.what() << '\n';
     }
-    std::cout << "\n***************\n\n";
-
-    stack.pop();
-    std::cout << "After popping\n";
-    stack.printStack();
-    stack.printStack(true);
-    try
-    {
-        std::cout << "Top of the stack: " << stack.top() << '\n';
-    }
-    catch (std::exception &ex)
-    {
-        std::cout << ex.what();
-    }
-    std::cout << "\n***************\n\n";    
-    std::cout << "\nStack size: " << stack.getSize() << '\n';
-    std::cout << "\n***************\n\n";
-    stack.pop();
-    std::cout << "After popping\n";
-    stack.printStack();
-    stack.printStack(true);
-    try
-    {
-        std::cout << "Top of the stack: " << stack.top() << '\n';
-    }
-    catch (std::exception &ex)
-    {
-        std::cout << ex.what();
-    }
-    std::cout << "\n***************\n\n";    
-    std::cout << "\nStack size: " << stack.getSize() << '\n';
-    std::cout << "\n***************\n\n";
-    stack.pop();
-    std::cout << "After popping\n";
-    stack.printStack();
-    stack.printStack(true);
-    try
-    {
-        std::cout << "Top of the stack: " << stack.top() << '\n';
-    }
-    catch (std::exception &ex)
-    {
-        std::cout << ex.what();
-    }    
-    std::cout << "\nStack size: " << stack.getSize() << '\n';
-    std::cout << "\n***************\n\n";
 
     return 0;
 }
