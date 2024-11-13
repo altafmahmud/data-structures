@@ -169,7 +169,6 @@ public:
         first = second_item;
 
         return --size;
-        ;
     }
 
     int removeLast()
@@ -348,7 +347,7 @@ public:
         last->next = nullptr;
     }
 
-    void clear()
+    int clear()
     {
         unsigned count = 0;
         if (first != nullptr)
@@ -361,7 +360,7 @@ public:
                 delete current;
                 current = nullptr;
                 current = next;
-                if (next != nullptr)
+                if (current != nullptr)
                 {
                     next = current->next;
                 }
@@ -370,6 +369,7 @@ public:
             size -= count;
             first = last = nullptr;
         }
+        return size;
     }
 
     friend std::ostream &operator<<(std::ostream &os, const LinkedList<T> &linkedList)
