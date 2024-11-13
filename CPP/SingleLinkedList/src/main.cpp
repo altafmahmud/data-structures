@@ -195,9 +195,8 @@ int main()
         std::cerr << e.what() << '\n';
     }
 
-    linkedList.at(4) = 100;
-    std::cout << "Current linked list after changing the value at position 4:\n"
-              << linkedList << '\n';
+    std::cout << "Value at position 4:\n"
+              << linkedList.at(4) << '\n';
 
     LinkedList<float> linkedListMovedCtr(std::move(linkedList));
     std::cout << "Moved constructor Linked List:\n"
@@ -206,7 +205,7 @@ int main()
     LinkedList<float> linkedListMoved;
     linkedListMoved = std::move(linkedListMovedCtr);
     std::cout << "Move assigned Linked List:\n"
-              << linkedListMoved << '\n';    
+              << linkedListMoved << '\n';
 
     return 0;
 }

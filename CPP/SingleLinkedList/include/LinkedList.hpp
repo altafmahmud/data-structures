@@ -265,7 +265,7 @@ public:
         return list_str;
     }
 
-    [[nodiscard]] T &at(const int index)
+    [[nodiscard]] const T &at(const int index) const
     {
         if (isEmpty())
         {
