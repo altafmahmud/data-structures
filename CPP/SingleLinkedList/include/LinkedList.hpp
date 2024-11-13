@@ -8,15 +8,20 @@ struct Node
     T value;
     Node<T> *next;
 
-    constexpr Node()
+    constexpr Node() noexcept
     {
         value = {};
         next = nullptr;
     }
 
-    constexpr Node(const T &val) : value(val), next(nullptr) {}
+    constexpr Node(const T &val) noexcept : value(val), next(nullptr) {}
 
     constexpr Node(const Node<T> &) = delete;
+
+    ~Node() noexcept
+    {
+        next = nullptr;
+    }
 };
 
 template <typename T>
@@ -34,6 +39,17 @@ public:
             addLast(*itr);
         }
         rhs.clear();
+    }
+
+    LinkedList<T> &operator=(LinkedList<T> &&rhs)
+    {
+        clear();
+        for (auto itr = rhs.begin(); itr != rhs.end(); ++itr)
+        {
+            addLast(*itr);
+        }
+        rhs.clear();
+        return *this;
     }
 
     ~LinkedList()
