@@ -25,7 +25,7 @@ public:
         return *this;
     }
 
-    constexpr bool isEmpty() const noexcept
+    [[nodiscard]] constexpr bool isEmpty() const noexcept
     {
         return m_singleLinkedList.isEmpty();
     }
@@ -44,7 +44,7 @@ public:
         m_singleLinkedList.removeLast();
     }
 
-    const T &top() const
+    [[nodiscard]] const T &top() const
     {
         if (m_singleLinkedList.isEmpty())
         {
@@ -55,14 +55,9 @@ public:
         return value;
     }
 
-    constexpr int getSize() const noexcept
+    [[nodiscard]] constexpr int getSize() const noexcept
     {
         return m_singleLinkedList.getSize();
-    }
-
-    constexpr LinkedList<T> &container() const noexcept
-    {
-        return m_singleLinkedList;
     }
 
     void printStack(const bool toString = false) const
