@@ -40,7 +40,7 @@ public:
         if (isEmpty())
         {
             throw std::runtime_error("Empty stack, failed to pop()\n");
-        }        
+        }
         m_singleLinkedList.removeLast();
     }
 

@@ -60,7 +60,7 @@ int main()
         movedStack = std::move(moveConstrStack);
         std::cout << "Moved stack\n";
         printStackDetails<int>(movedStack);
-        std::cout << "***************\n\n";        
+        std::cout << "***************\n\n";
     }
     catch (const std::exception &e)
     {
