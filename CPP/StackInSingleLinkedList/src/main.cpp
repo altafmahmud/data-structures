@@ -11,7 +11,7 @@ void printStackDetails(const StackInSingleLinkedList<T> &stack)
     {
         std::cout << "Top of the stack: " << stack.top() << '\n';
     }
-    catch(const std::exception& e)
+    catch (const std::exception &e)
     {
         std::cerr << e.what() << '\n';
     }
@@ -43,10 +43,24 @@ int main()
         stack.pop();
         printStackDetails<int>(stack);
         std::cout << "***************\n\n";
-        std::cout << "Popping: " << stack.top() << '\n';
-        stack.pop();
+
+        std::cout << "Pushing 5\n";
+        stack.push(5);
+        std::cout << "Pushing 15\n";
+        stack.push(15);
+        std::cout << "Pushing 25\n";
+        stack.push(25);
         printStackDetails<int>(stack);
         std::cout << "***************\n\n";
+        StackInSingleLinkedList<int> moveConstrStack(std::move(stack));
+        std::cout << "Stack with move constructor\n";
+        printStackDetails<int>(moveConstrStack);
+        std::cout << "***************\n\n";
+        StackInSingleLinkedList<int> movedStack;
+        movedStack = std::move(moveConstrStack);
+        std::cout << "Moved stack\n";
+        printStackDetails<int>(movedStack);
+        std::cout << "***************\n\n";        
     }
     catch (const std::exception &e)
     {

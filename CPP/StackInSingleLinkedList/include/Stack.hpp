@@ -13,12 +13,7 @@ public:
 
     StackInSingleLinkedList(StackInSingleLinkedList<T> &&rhs) : StackInSingleLinkedList()
     {
-        const auto &rhs_list = rhs.container();
-        for (auto itr = rhs_list.begin(); itr != rhs_list.end(); ++itr)
-        {
-            m_singleLinkedList.addLast(*itr);
-        }
-        rhs.clear();
+        m_singleLinkedList = std::move(rhs.m_singleLinkedList);
     }
 
     ~StackInSingleLinkedList() = default;
@@ -26,12 +21,8 @@ public:
     StackInSingleLinkedList<T> &operator=(StackInSingleLinkedList<T> &&rhs)
     {
         clear();
-        const auto &rhs_list = rhs.container();
-        for (auto itr = rhs_list.begin(); itr != rhs_list.end(); ++itr)
-        {
-            m_singleLinkedList.addLast(*itr);
-        }
-        rhs.clear();
+        m_singleLinkedList = std::move(rhs.m_singleLinkedList);
+        return *this;
     }
 
     constexpr bool isEmpty() const noexcept
