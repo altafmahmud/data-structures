@@ -1,5 +1,22 @@
 #include <iostream>
 #include <memory>
+#include <type_traits>
+#include <iomanip>
+#include <sstream>
+
+namespace
+{
+    constexpr unsigned PRECISION = 2;
+
+    template <typename T>
+    constexpr void setStreamPrecision(std::ostream &os)
+    {
+        if (std::is_same_v<T, float> || std::is_same_v<T, double>)
+        {
+            os << std::fixed << std::setprecision(PRECISION);
+        }
+    }
+}
 
 template <typename T>
 struct Node
@@ -21,6 +38,13 @@ struct Node
     {
         next = nullptr;
     }
+
+    constexpr friend std::ostream &operator<<(std::ostream &os, const Node<T> &node)
+    {
+        setStreamPrecision<T>(os);
+        os << node.value;
+        return os;
+    }    
 };
 
 template <typename T>
@@ -250,18 +274,20 @@ public:
 
     [[nodiscard]] const std::string toString() const
     {
-        std::string list_str("[");
+        std::ostringstream oss;
+        setStreamPrecision<T>(oss);
+        oss << "[";
         for (auto node = first; node != nullptr; node = node->next)
         {
-            list_str += std::to_string(node->value);
+            oss << node->value;
             if (node->next != nullptr)
             {
-                list_str += ", ";
+                oss << ", ";
             }
         }
-        list_str += "]";
+        oss << "]";
 
-        return list_str;
+        return oss.str();
     }
 
     [[nodiscard]] const T &at(const int index) const
@@ -375,7 +401,7 @@ public:
     {
         for (auto current = linkedList.first; current != nullptr; current = current->next)
         {
-            os << current->value << '\n';
+            os << *current << '\n';
         }
 
         return os;

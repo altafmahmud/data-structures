@@ -197,6 +197,7 @@ int main()
 
     std::cout << "Value at position 4:\n"
               << linkedList.at(4) << '\n';
+    std::cout << '\n';
 
     LinkedList<float> linkedListMovedCtr(std::move(linkedList));
     std::cout << "Moved constructor Linked List:\n"
