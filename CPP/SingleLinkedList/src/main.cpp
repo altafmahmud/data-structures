@@ -208,5 +208,11 @@ int main()
     std::cout << "Move assigned Linked List:\n"
               << linkedListMoved << '\n';
 
+    std::cout << "Changing the first node value:\n";
+    auto itr_begin = linkedListMoved.begin();
+    *itr_begin = 99.9;
+    std::cout << "Linked list after changing the first value:\n"
+              << linkedListMoved << '\n';
+
     return 0;
 }
