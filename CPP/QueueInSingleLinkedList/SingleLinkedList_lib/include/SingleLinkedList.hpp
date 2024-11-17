@@ -44,7 +44,7 @@ struct Node
         setStreamPrecision<T>(os);
         os << node.value;
         return os;
-    }    
+    }
 };
 
 template <typename T>
@@ -410,11 +410,11 @@ public:
     class Iterator
     {
     public:
-        Iterator() noexcept : m_pCurrentNode(nullptr) {}
+        constexpr Iterator() noexcept : m_pCurrentNode(nullptr) {}
 
-        Iterator(Node<T> *pNode) noexcept : m_pCurrentNode(pNode) {}
+        constexpr Iterator(Node<T> *pNode) noexcept : m_pCurrentNode(pNode) {}
 
-        Iterator &operator=(Node<T> *pNode)
+        constexpr Iterator &operator=(Node<T> *pNode)
         {
             m_pCurrentNode = pNode;
             return *this;
@@ -457,12 +457,12 @@ public:
             return iterator;
         }
 
-        bool operator!=(const Iterator &iterator) const
+        constexpr bool operator!=(const Iterator &iterator) const
         {
             return m_pCurrentNode != iterator.m_pCurrentNode;
         }
 
-        T &operator*()
+        constexpr T &operator*()
         {
             return m_pCurrentNode->value;
         }
@@ -471,12 +471,12 @@ public:
         Node<T> *m_pCurrentNode;
     };
 
-    Iterator begin() noexcept
+    constexpr Iterator begin() noexcept
     {
         return Iterator(first);
     }
 
-    Iterator end() noexcept
+    constexpr Iterator end() noexcept
     {
         return Iterator(last->next);
     }
