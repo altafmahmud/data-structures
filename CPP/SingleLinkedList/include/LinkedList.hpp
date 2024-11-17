@@ -462,8 +462,12 @@ public:
             return m_pCurrentNode != iterator.m_pCurrentNode;
         }
 
-        constexpr T &operator*()
+        T &operator*()
         {
+            if (m_pCurrentNode == nullptr)
+            {
+                throw std::invalid_argument("Null pointer exception\n");
+            }
             return m_pCurrentNode->value;
         }
 
