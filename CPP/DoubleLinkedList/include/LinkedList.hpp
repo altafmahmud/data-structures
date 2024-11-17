@@ -513,9 +513,9 @@ public:
     public:
         constexpr Iterator() noexcept : m_pCurrentNode(nullptr) {}
 
-        constexpr Iterator(const Node<T> *pNode) noexcept : m_pCurrentNode(pNode) {}
+        constexpr Iterator(Node<T> *pNode) noexcept : m_pCurrentNode(pNode) {}
 
-        constexpr Iterator &operator=(const Node<T> *pNode)
+        constexpr Iterator &operator=(Node<T> *pNode)
         {
             m_pCurrentNode = pNode;
             return *this;
@@ -560,13 +560,13 @@ public:
             return m_pCurrentNode != iterator.m_pCurrentNode;
         }
 
-        constexpr T operator*()
+        constexpr T &operator*()
         {
             return m_pCurrentNode->value;
         }
 
     private:
-        const Node<T> *m_pCurrentNode;
+        Node<T> *m_pCurrentNode;
     };
 
     constexpr Iterator begin() noexcept

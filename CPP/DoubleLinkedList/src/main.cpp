@@ -222,10 +222,17 @@ int main()
     {
         std::cerr << e.what() << '\n';
     }
+
+    std::cout << "Changing the first node value:\n";
+    auto itr_begin = linkedList.begin();
+    *itr_begin = 99.99;
+    std::cout << "Current linked list after changing the first node value:\n"
+              << linkedList << '\n';
+
     std::cout << "Clearing the list:\n";
     linkedList.clear();
     std::cout << "List to string:\n"
-              << linkedList.toString() << '\n';    
+              << linkedList.toString() << '\n';
     std::cout << "The size of list: " << linkedList.getSize() << '\n';
 
     return 0;
