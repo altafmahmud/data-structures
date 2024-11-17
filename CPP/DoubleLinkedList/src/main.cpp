@@ -12,18 +12,23 @@ int main()
     {
         std::cout << "Current list:\n"
                   << linkedList << '\n';
+        std::cout << "Adding 15.5 at position 2:\n";
         linkedList.addAt(2, 15.5);
-        std::cout << "List after adding 15.5 at position 2:\n"
+        std::cout << "Current list:\n"
                   << linkedList << '\n';
+        std::cout << "Adding 25.5 at position 4:\n";
         linkedList.addAt(4, 25.5);
-        std::cout << "List after adding 25.5 at position 4:\n"
+        std::cout << "Current list:\n"
                   << linkedList << '\n';
+        std::cout << "Adding 1.0 at position 0:\n";
         linkedList.addAt(0, 1.0);
-        std::cout << "List after adding 1.0 at position 0:\n"
+        std::cout << "Current list:\n"
                   << linkedList << '\n';
+        std::cout << "Adding 30.0 at position 10:\n";
         linkedList.addAt(10, 30.0);
-        std::cout << "List after adding 30.0 at position 10:\n"
+        std::cout << "Current list:\n"
                   << linkedList << '\n';
+        std::cout << "The size of list: " << linkedList.getSize() << '\n';
     }
     catch (const std::exception &ex)
     {
@@ -33,21 +38,25 @@ int main()
     try
     {
         std::cout << "The size of list: " << linkedList.getSize() << '\n';
-        auto value = 5.0;
-        std::cout << "Index of " << value << ": " << linkedList.indexOf(value) << '\n';
-        std::cout << std::boolalpha << "Contains " << value << ": " << linkedList.contains(value) << '\n'
+        std::cout << "Index of 5.0: " << linkedList.indexOf(5.0) << '\n';
+        std::cout << std::boolalpha << "Contains 5.0: " << linkedList.contains(5.0) << '\n'
                   << std::noboolalpha;
-        value = linkedList.removeFirst();
-        std::cout << "First item: " << value << " removed\n";
-        std::cout << "The size of list: " << linkedList.getSize() << '\n';
-        value = linkedList.removeFirst();
-        std::cout << "First item: " << value << " removed\n";
-        std::cout << "The size of list: " << linkedList.getSize() << '\n';
-        value = linkedList.removeFirst();
-        std::cout << "First item: " << value << " removed\n";
-        std::cout << "The size of list: " << linkedList.getSize() << '\n';
-        value = linkedList.removeFirst();
-        std::cout << "First item: " << value << " removed\n";
+        std::cout << "Removing the first item:\n";
+        linkedList.removeFirst();
+        std::cout << "Current list:\n"
+                  << linkedList << '\n';
+        std::cout << "Removing the first item:\n";
+        linkedList.removeFirst();
+        std::cout << "Current list:\n"
+                  << linkedList << '\n';
+        std::cout << "Removing the first item:\n";
+        linkedList.removeFirst();
+        std::cout << "Current list:\n"
+                  << linkedList << '\n';
+        std::cout << "Removing the first item:\n";
+        linkedList.removeFirst();
+        std::cout << "Current list:\n"
+                  << linkedList << '\n';
         std::cout << "The size of list: " << linkedList.getSize() << '\n';
     }
     catch (const std::exception &e)
@@ -61,18 +70,22 @@ int main()
     linkedList.addFirst(5.5);
     try
     {
-        std::cout << "The size of list: " << linkedList.getSize() << '\n';
-        auto value = linkedList.removeLast();
-        std::cout << "Last item: " << value << " removed\n";
-        std::cout << "The size of list: " << linkedList.getSize() << '\n';
-        value = linkedList.removeLast();
-        std::cout << "Last item: " << value << " removed\n";
-        std::cout << "The size of list: " << linkedList.getSize() << '\n';
-        value = linkedList.removeLast();
-        std::cout << "Last item: " << value << " removed\n";
-        std::cout << "The size of list: " << linkedList.getSize() << '\n';
-        value = linkedList.removeLast();
-        std::cout << "Last item: " << value << " removed\n";
+        std::cout << "Removing the last item:\n";
+        linkedList.removeLast();
+        std::cout << "Current list:\n"
+                  << linkedList << '\n';
+        std::cout << "Removing the last item:\n";
+        linkedList.removeLast();
+        std::cout << "Current list:\n"
+                  << linkedList << '\n';
+        std::cout << "Removing the last item:\n";
+        linkedList.removeLast();
+        std::cout << "Current list:\n"
+                  << linkedList << '\n';
+        std::cout << "Removing the last item:\n";
+        linkedList.removeLast();
+        std::cout << "Current list:\n"
+                  << linkedList << '\n';
         std::cout << "The size of list: " << linkedList.getSize() << '\n';
     }
     catch (const std::exception &e)
@@ -116,20 +129,25 @@ int main()
         std::cout << "The list:\n"
                   << linkedList << '\n';
         std::cout << "The size of list: " << linkedList.getSize() << '\n';
-        auto value = linkedList.removeAt(1);
-        std::cout << "After removing node: " << value << " at position: 1\n"
+        auto pos = 1;
+        linkedList.removeAt(pos);
+        std::cout << "After removing node at position: " << pos << '\n'
                   << linkedList;
-        value = linkedList.removeAt(2);
-        std::cout << "After removing node: " << value << " at position: 2\n"
+        pos = 2;
+        linkedList.removeAt(pos);
+        std::cout << "After removing node at position: " << pos << '\n'
                   << linkedList;
-        value = linkedList.removeAt(1);
-        std::cout << "After removing node: " << value << " at position: 1\n"
+        pos = 1;
+        linkedList.removeAt(pos);
+        std::cout << "After removing node at position: " << pos << '\n'
                   << linkedList;
-        value = linkedList.removeAt(0);
-        std::cout << "After removing node: " << value << " at position: 1\n"
+        pos = 0;
+        linkedList.removeAt(pos);
+        std::cout << "After removing node at position: " << pos << '\n'
                   << linkedList;
-        value = linkedList.removeAt(linkedList.getSize() - 1);
-        std::cout << "After removing node: " << value << " at position: 1\n"
+        pos = linkedList.getSize() - 1;
+        linkedList.removeAt(pos);
+        std::cout << "After removing node at position: " << pos << '\n'
                   << linkedList;
     }
     catch (const std::exception &e)
@@ -179,11 +197,11 @@ int main()
         linkedList.addLast(30.3);
         std::cout << "Current linked list:\n"
                   << linkedList << '\n';
-        const auto &val_01 = linkedList.getAt(0);
+        const auto &val_01 = linkedList.at(0);
         std::cout << "At position 0: " << val_01 << '\n';
-        auto &val_03 = linkedList.getAt(3);
+        const auto &val_03 = linkedList.at(3);
         std::cout << "At position 3: " << val_03 << '\n';
-        auto &val_05 = linkedList.getAt(5);
+        const auto &val_05 = linkedList.at(5);
         std::cout << "At position 5: " << val_05 << '\n';
     }
     catch (const std::exception &e)
@@ -204,6 +222,11 @@ int main()
     {
         std::cerr << e.what() << '\n';
     }
+    std::cout << "Clearing the list:\n";
+    linkedList.clear();
+    std::cout << "List to string:\n"
+              << linkedList.toString() << '\n';    
+    std::cout << "The size of list: " << linkedList.getSize() << '\n';
 
     return 0;
 }

@@ -1,34 +1,56 @@
 #include <iostream>
-#include <memory>
-#include <limits>
+#include <type_traits>
+#include <iomanip>
+#include <sstream>
 
-template <typename T = int>
+namespace
+{
+    constexpr unsigned PRECISION = 2;
+
+    template <typename T>
+    constexpr void setStreamPrecision(std::ostream &os)
+    {
+        if (std::is_same_v<T, float> || std::is_same_v<T, double>)
+        {
+            os << std::fixed << std::setprecision(PRECISION);
+        }
+    }
+}
+
+template <typename T>
 struct Node
 {
     T value;
     Node *prev;
     Node *next;
 
-    Node() : value{}, prev(nullptr), next(nullptr)
+    constexpr Node() noexcept : value{}, prev(nullptr), next(nullptr) {}
+
+    constexpr Node(const T &value) noexcept : value(value), prev(nullptr), next(nullptr) {}
+
+    ~Node() noexcept
     {
+        resetLinks();
     }
 
-    Node(const T value) : Node()
-    {
-        this->value = value;
-    }
-
-    constexpr void resetLinks()
+    constexpr void resetLinks() noexcept
     {
         prev = next = nullptr;
     }
+
+    constexpr friend std::ostream &operator<<(std::ostream &os, const Node<T> &node)
+    {
+        setStreamPrecision<T>(os);
+        os << node.value;
+        return os;
+    }
 };
 
-template <typename T = int>
+template <typename T>
 class LinkedList
 {
 private:
-    T deleteNode(Node<T> *node)
+    int deleteNode(Node<T> *node)
     {
         if (node == nullptr)
         {
@@ -46,11 +68,9 @@ private:
             next->prev = previous;
         }
         node->resetLinks();
-        const auto del_val = node->value;
         delete node;
-        --size;
 
-        return del_val;
+        return --size;
     }
 
     int size;
@@ -58,19 +78,36 @@ private:
     Node<T> *last;
 
 public:
-    LinkedList() noexcept : size(0)
-    {
-        first = last = nullptr;
-    }
+    constexpr LinkedList() noexcept : size(0), first(nullptr), last(nullptr) {}
 
-    LinkedList(const LinkedList &) = delete;
+    constexpr LinkedList(const LinkedList &) = delete;
+
+    LinkedList(LinkedList<T> &&rhs) : LinkedList()
+    {
+        for (auto itr = rhs.begin(); itr != rhs.end(); ++itr)
+        {
+            addLast(*itr);
+        }
+        rhs.clear();
+    }
 
     ~LinkedList()
     {
         clear();
     }
 
-    void addLast(const T &value)
+    LinkedList<T> &operator=(LinkedList<T> &&rhs)
+    {
+        clear();
+        for (auto itr = rhs.begin(); itr != rhs.end(); ++itr)
+        {
+            addLast(*itr);
+        }
+        rhs.clear();
+        return *this;
+    }
+
+    int addLast(const T &value)
     {
         Node<T> *node = new Node(value);
         if (isEmpty())
@@ -83,10 +120,10 @@ public:
             node->prev = last;
             last = node;
         }
-        ++size;
+        return ++size;
     }
 
-    void addFirst(const T &value)
+    int addFirst(const T &value)
     {
         Node<T> *node = new Node(value);
         if (isEmpty())
@@ -99,10 +136,10 @@ public:
             first->prev = node;
             first = node;
         }
-        ++size;
+        return ++size;
     }
 
-    void addAt(const int index, const T &value)
+    int addAt(const int index, const T &value)
     {
         if (index < 0)
         {
@@ -114,11 +151,11 @@ public:
         }
         if (index == 0)
         {
-            addFirst(value);
+            return addFirst(value);
         }
         else if (index == size)
         {
-            addLast(value);
+            return addLast(value);
         }
         else
         {
@@ -154,11 +191,11 @@ public:
             current->prev = node;
             node->prev = previous;
             node->next = current;
-            ++size;
         }
+        return ++size;
     }
 
-    int indexOf(const T &value) const
+    [[nodiscard]] int indexOf(const T &value) const
     {
         unsigned index = 0;
         auto current = first;
@@ -170,29 +207,28 @@ public:
         return (current != nullptr) ? index : -1;
     }
 
-    bool contains(const T &value) const
+    [[nodiscard]] bool contains(const T &value) const
     {
         const auto index_of = indexOf(value);
         return (index_of >= 0);
     }
 
-    constexpr int getSize() const noexcept
+    [[nodiscard]] constexpr int getSize() const noexcept
     {
         return size;
     }
 
-    constexpr bool isEmpty() const noexcept
+    [[nodiscard]] constexpr bool isEmpty() const noexcept
     {
         return size == 0;
     }
 
-    const T removeFirst()
+    int removeFirst()
     {
         if (isEmpty())
         {
             throw std::runtime_error("This list is empty, unable to remove the first item\n");
         }
-        const auto first_value = first->value;
         if (first == last)
         {
             first->resetLinks();
@@ -207,18 +243,15 @@ public:
             delete first;
             first = second_node;
         }
-        --size;
-
-        return first_value;
+        return --size;
     }
 
-    const T removeLast()
+    int removeLast()
     {
         if (isEmpty())
         {
             throw std::runtime_error("This list is empty, unable to remove the last item\n");
         }
-        const auto last_value = last->value;
         if (first == last)
         {
             last->resetLinks();
@@ -233,9 +266,7 @@ public:
             delete last;
             last = previous;
         }
-        --size;
-
-        return last_value;
+        return --size;
     }
 
     int remove(const T &value)
@@ -244,45 +275,45 @@ public:
         {
             throw std::runtime_error("This list is empty, unable to remove node: " + std::to_string(value) + '\n');
         }
-        unsigned index = 0;
         if (first->value == value)
         {
-            removeFirst();
-            return index;
+            return removeFirst();
         }
         auto current = first;
         while (current != nullptr && current->value != value)
         {
             current = current->next;
-            ++index;
         }
         if (current == last)
         {
-            removeLast();
-            return index;
+            return removeLast();
         }
         if (current == nullptr)
         {
             throw std::invalid_argument("Unable to remove value: " + std::to_string(value) + ", not found\n");
         }
+        auto current_size = 0;
         try
         {
-            deleteNode(current);
+            current_size = deleteNode(current);
         }
         catch (const std::exception &e)
         {
             throw;
         }
-
-        return index;
+        return current_size;
     }
 
-    const T removeAt(const int index)
+    int removeAt(const int index)
     {
         if (isEmpty())
         {
             throw std::runtime_error("This list is empty, unable to remove node at position: " + std::to_string(index) + '\n');
         }
+        if (index >= size || index < 0)
+        {
+            throw std::out_of_range("The index out of range: " + std::to_string(index) + ", size of the list: " + std::to_string(size) + '\n');
+        }        
         if (index == 0)
         {
             return removeFirst();
@@ -313,20 +344,19 @@ public:
                 --idx;
             }
         }
-        T del_val{};
+        auto current_size = 0;
         try
         {
-            del_val = deleteNode(current);
+            current_size = deleteNode(current);
         }
         catch (const std::exception &e)
         {
             throw;
         }
-
-        return del_val;
+        return current_size;
     }
 
-    std::unique_ptr<T[]> toArray() const
+    [[nodiscard]] std::unique_ptr<T[]> toArray() const
     {
         std::unique_ptr<T[]> int_arr = std::make_unique<T[]>(size);
         unsigned idx = 0;
@@ -337,7 +367,7 @@ public:
         return int_arr;
     }
 
-    const T &getKthNodeFromTheEnd(const int k) const
+    [[nodiscard]] const T &getKthNodeFromTheEnd(const int k) const
     {
         if (k < 1 || k > size)
         {
@@ -360,11 +390,10 @@ public:
         {
             throw std::runtime_error("Passed the list while setting the difference!");
         }
-
         return current->value;
     }
 
-    const T &getAt(const int index) const
+    [[nodiscard]] const T &at(const int index) const
     {
         if (index < 0 || index >= size)
         {
@@ -403,7 +432,6 @@ public:
         {
             throw std::runtime_error("Passed the list while searching for the index: " + std::to_string(index) + '\n');
         }
-
         return current->value;
     }
 
@@ -430,23 +458,24 @@ public:
         last = current;
     }
 
-    const std::string toString() const
+    [[nodiscard]] const std::string toString() const
     {
-        std::string list_str("[");
+        std::ostringstream oss;
+        setStreamPrecision<T>(oss);
+        oss << "[";
         for (auto node = first; node != nullptr; node = node->next)
         {
-            list_str += std::to_string(node->value);
+            oss << node->value;
             if (node->next != nullptr)
             {
-                list_str += ", ";
+                oss << ", ";
             }
         }
-        list_str += "]";
-
-        return list_str;
+        oss << "]";
+        return oss.str();
     }
 
-    void clear()
+    int clear()
     {
         unsigned count = 0;
         if (!isEmpty())
@@ -465,35 +494,30 @@ public:
                 ++count;
             }
             size -= count;
-            std::cout << count << " nodes deleted, size of the list: " << size << '\n';
             first = last = nullptr;
         }
+        return size;
     }
 
     friend std::ostream &operator<<(std::ostream &os, const LinkedList<T> &linkedList)
     {
         for (auto current = linkedList.first; current != nullptr; current = current->next)
         {
-            os << current->value << '\n';
+            os << *current << '\n';
         }
-
         return os;
     }
 
     class Iterator
     {
     public:
-        Iterator() noexcept : m_pCurrentNode(nullptr)
-        {
-        }
+        constexpr Iterator() noexcept : m_pCurrentNode(nullptr) {}
 
-        Iterator(const Node<T> *pNode) noexcept : m_pCurrentNode(pNode)
-        {
-        }
+        constexpr Iterator(const Node<T> *pNode) noexcept : m_pCurrentNode(pNode) {}
 
-        Iterator &operator=(const Node<T> *pNode)
+        constexpr Iterator &operator=(const Node<T> *pNode)
         {
-            this->m_pCurrentNode = pNode;
+            m_pCurrentNode = pNode;
             return *this;
         }
 
@@ -501,59 +525,56 @@ public:
         {
             for (unsigned idx = 0; idx < offset; ++idx)
             {
-                if (this->m_pCurrentNode == nullptr)
+                if (m_pCurrentNode == nullptr)
                 {
                     throw std::range_error("Access to an invalid object\n");
                 }
                 ++*this;
             }
-
             return *this;
         }
 
         Iterator &operator++()
         {
-            if (this->m_pCurrentNode == nullptr)
+            if (m_pCurrentNode == nullptr)
             {
                 throw std::range_error("Access to an invalid object\n");
             }
-            this->m_pCurrentNode = this->m_pCurrentNode->next;
-
+            m_pCurrentNode = m_pCurrentNode->next;
             return *this;
         }
 
         Iterator operator++(int)
         {
-            if (this->m_pCurrentNode == nullptr)
+            if (m_pCurrentNode == nullptr)
             {
                 throw std::range_error("Access to an invalid object\n");
             }
             auto iterator = *this;
             ++*this;
-
             return iterator;
         }
 
-        bool operator!=(const Iterator &iterator)
+        constexpr bool operator!=(const Iterator &iterator)
         {
-            return this->m_pCurrentNode != iterator.m_pCurrentNode;
+            return m_pCurrentNode != iterator.m_pCurrentNode;
         }
 
-        T operator*()
+        constexpr T operator*()
         {
-            return this->m_pCurrentNode->value;
+            return m_pCurrentNode->value;
         }
 
     private:
         const Node<T> *m_pCurrentNode;
     };
 
-    Iterator begin() noexcept
+    constexpr Iterator begin() noexcept
     {
         return Iterator(first);
     }
 
-    Iterator end() noexcept
+    constexpr Iterator end() noexcept
     {
         return Iterator(last->next);
     }
