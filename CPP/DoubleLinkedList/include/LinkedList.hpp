@@ -664,11 +664,11 @@ public:
             return m_pCurrentNode != pNode;
         }
 
-        constexpr T &operator*()
+        T &operator*()
         {
             if (m_pCurrentNode == nullptr)
             {
-                throw std::bad_variant_access();
+                throw std::invalid_argument("Null pointer exception\n");
             }
             return m_pCurrentNode->value;
         }
