@@ -516,15 +516,16 @@ public:
 
         constexpr Iterator(LinkedList<T> *pLinkedList, Node<T> *pNode) noexcept : m_pLinkedList(pLinkedList), m_pCurrentNode(pNode) {}
 
-        constexpr Iterator(Node<T> *pNode) noexcept : m_pCurrentNode(pNode) {}
+        ~Iterator() = default;
 
-        constexpr Iterator &operator=(Node<T> *pNode)
+        constexpr Iterator &operator=(const Iterator &itr)
         {
-            m_pCurrentNode = pNode;
+            m_pLinkedList = itr.m_pLinkedList;
+            m_pCurrentNode = itr.m_pCurrentNode;
             return *this;
         }
 
-        Iterator &operator+(const unsigned offset)
+        Iterator &operator+(const int offset)
         {
             if (offset < 0)
             {
