@@ -536,7 +536,7 @@ public:
 
         ~Iterator() = default;
 
-        constexpr Iterator &operator=(const Iterator &itr)
+        constexpr Iterator &operator=(const Iterator &itr) noexcept
         {
             m_pLinkedList = itr.m_pLinkedList;
             m_pCurrentNode = itr.m_pCurrentNode;
@@ -644,28 +644,32 @@ public:
             return iterator;
         }
 
-        constexpr bool &operator==(const Iterator &iterator)
+        constexpr bool &operator==(const Iterator &iterator) const noexcept
         {
             return m_pCurrentNode == iterator.m_pCurrentNode;
         }
 
-        constexpr bool operator==(const Node<T> *pNode)
+        constexpr bool operator==(const Node<T> *pNode) const noexcept
         {
             return m_pCurrentNode == pNode;
         }
 
-        constexpr bool operator!=(const Iterator &iterator)
+        constexpr bool operator!=(const Iterator &iterator) const noexcept
         {
             return m_pCurrentNode != iterator.m_pCurrentNode;
         }
 
-        constexpr bool operator!=(const Node<T> *pNode)
+        constexpr bool operator!=(const Node<T> *pNode) const noexcept
         {
             return m_pCurrentNode != pNode;
         }
 
         constexpr T &operator*()
         {
+            if (m_pCurrentNode == nullptr)
+            {
+                throw std::bad_variant_access();
+            }
             return m_pCurrentNode->value;
         }
 
