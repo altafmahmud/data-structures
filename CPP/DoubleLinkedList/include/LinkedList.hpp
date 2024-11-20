@@ -144,11 +144,15 @@ public:
     {
         if (index < 0)
         {
-            throw std::invalid_argument("Invalid index: " + std::to_string(index) + '\n');
+            std::stringstream ss;
+            ss << "Invalid index: " << index << '\n';
+            throw std::invalid_argument(ss.str());
         }
         else if (index > size)
         {
-            throw std::invalid_argument("Invalid index: " + std::to_string(index) + ", greater than list size: " + std::to_string(size) + '\n');
+            std::stringstream ss;
+            ss << "Invalid index: " << index << ", greater than list size: " << size << '\n';
+            throw std::invalid_argument(ss.str());
         }
         if (index == 0)
         {
@@ -274,7 +278,9 @@ public:
     {
         if (isEmpty())
         {
-            throw std::runtime_error("This list is empty, unable to remove node: " + std::to_string(value) + '\n');
+            std::stringstream ss;
+            ss << "This list is empty, unable to remove node: " << value << '\n';
+            throw std::runtime_error(ss.str());
         }
         if (first->value == value)
         {
@@ -291,7 +297,9 @@ public:
         }
         if (current == nullptr)
         {
-            throw std::invalid_argument("Unable to remove value: " + std::to_string(value) + ", not found\n");
+            std::stringstream ss;
+            ss << "Unable to remove value: " << value << ", not found\n";
+            throw std::runtime_error(ss.str());
         }
         auto current_size = 0;
         try
@@ -309,11 +317,15 @@ public:
     {
         if (isEmpty())
         {
-            throw std::runtime_error("This list is empty, unable to remove node at position: " + std::to_string(index) + '\n');
+            std::stringstream ss;
+            ss << "This list is empty, unable to remove node at position: " << index << '\n';
+            throw std::runtime_error(ss.str());
         }
         if (index >= size || index < 0)
         {
-            throw std::out_of_range("The index out of range: " + std::to_string(index) + ", size of the list: " + std::to_string(size) + '\n');
+            std::stringstream ss;
+            ss << "The index out of range: " << index << ", size of the list: " << size << '\n';
+            throw std::runtime_error(ss.str());
         }
         if (index == 0)
         {
@@ -372,7 +384,9 @@ public:
     {
         if (k < 1 || k > size)
         {
-            throw std::runtime_error("Invalid argument: " + std::to_string(k) + " to get an item, argument must be in: [" + std::to_string(1) + '-' + std::to_string(size) + "]\n");
+            std::stringstream ss;
+            ss << "Invalid argument: " << std::to_string(k) << " to get an item, argument must be in: [" << 1 << '-' << size << "]\n";
+            throw std::runtime_error(ss.str());
         }
         if (isEmpty())
         {
@@ -398,7 +412,9 @@ public:
     {
         if (index < 0 || index >= size)
         {
-            throw std::runtime_error("Invalid argument: " + std::to_string(index) + " to get an item, argument must be in: [" + std::to_string(0) + '-' + std::to_string(size - 1) + "]\n");
+            std::stringstream ss;
+            ss << "Invalid argument: " << index << " to get an item, argument must be in: [" << 0 << '-' << size - 1 << "]\n";
+            throw std::runtime_error(ss.str());
         }
         if (isEmpty())
         {
@@ -431,7 +447,9 @@ public:
         }
         if (current == first || current == last)
         {
-            throw std::runtime_error("Passed the list while searching for the index: " + std::to_string(index) + '\n');
+            std::stringstream ss;
+            ss << "Passed the list while searching for the index: " << index << '\n';
+            throw std::runtime_error(ss.str());
         }
         return current->value;
     }
