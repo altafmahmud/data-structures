@@ -416,7 +416,7 @@ public:
 
         ~Iterator() = default;
 
-        constexpr Iterator &operator=(const Iterator &iterator)
+        constexpr Iterator &operator=(const Iterator &iterator) noexcept
         {
             m_pCurrentNode = iterator.m_pCurrentNode;
             return *this;
@@ -459,22 +459,22 @@ public:
             return iterator;
         }
 
-        constexpr bool operator==(const Iterator &iterator) const
+        constexpr bool operator==(const Iterator &iterator) const noexcept
         {
             return m_pCurrentNode == iterator.m_pCurrentNode;
         }
 
-        constexpr bool operator==(const Node<T> *pNode) const
+        constexpr bool operator==(const Node<T> *pNode) const noexcept
         {
             return m_pCurrentNode == pNode;
         }
 
-        constexpr bool operator!=(const Iterator &iterator) const
+        constexpr bool operator!=(const Iterator &iterator) const noexcept
         {
             return m_pCurrentNode != iterator.m_pCurrentNode;
         }
 
-        constexpr bool operator!=(const Node<T> *pNode) const
+        constexpr bool operator!=(const Node<T> *pNode) const noexcept
         {
             return m_pCurrentNode != pNode;
         }
