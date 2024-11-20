@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <unordered_map>
+#include <sstream>
 
 template <typename T, typename Compare = std::less<T>>
 class BinaryHeap
@@ -9,20 +10,20 @@ class BinaryHeap
 public:
     constexpr BinaryHeap() = default;
 
-    BinaryHeap(const BinaryHeap &rhs) : m_container(rhs.m_container), m_indexMap(rhs.m_indexMap) {}
+    constexpr BinaryHeap(const BinaryHeap &rhs) noexcept : m_container(rhs.m_container), m_indexMap(rhs.m_indexMap) {}
 
-    BinaryHeap(BinaryHeap &&rhs) noexcept : m_container(std::move(rhs.m_container)), m_indexMap(std::move(rhs.m_indexMap)) {}
+    constexpr BinaryHeap(BinaryHeap &&rhs) noexcept : m_container(std::move(rhs.m_container)), m_indexMap(std::move(rhs.m_indexMap)) {}
 
     ~BinaryHeap() = default;
 
-    BinaryHeap<T, Compare> &operator=(const BinaryHeap<T, Compare> &rhs)
+    constexpr BinaryHeap<T, Compare> &operator=(const BinaryHeap<T, Compare> &rhs) noexcept
     {
         if (this == &rhs)
         {
             return *this;
         }
-        this->m_container = rhs.m_container;
-        this->m_indexMap = rhs.m_indexMap;
+        m_container = rhs.m_container;
+        m_indexMap = rhs.m_indexMap;
         return *this;
     }
 
@@ -62,6 +63,10 @@ public:
 
     void poll()
     {
+        if (isEmpty())
+        {
+            throw std::invalid_argument("The heap is empty, unable to poll\n");
+        }
         const auto &element = m_container[0];
         remove(element);
     }
@@ -70,12 +75,14 @@ public:
     {
         if (m_container.empty() || index < 0)
         {
-            throw std::out_of_range("Index: " + std::to_string(index) + " out of range\n");
+            std::stringstream ss;
+            ss << "Index: " << index << " out of range\n";
+            throw std::out_of_range(ss.str());
         }
         return m_container.at(index);
     }
 
-    [[nodiscard]] std::vector<T> container() const noexcept
+    [[nodiscard]] constexpr std::vector<T> container() const noexcept
     {
         return m_container;
     }
@@ -101,7 +108,9 @@ private:
     {
         if (childIndex < 0)
         {
-            throw std::out_of_range("Invalid child index: " + std::to_string(childIndex) + " to get the parent\n");
+            std::stringstream ss;
+            ss << "Invalid child index: " << childIndex << " to get the parent\n";
+            throw std::out_of_range(ss.str());
         }
         if (childIndex == 0)
         {
@@ -115,11 +124,15 @@ private:
     {
         if (parentIndex < 0 || parentIndex >= m_container.size())
         {
-            throw std::out_of_range("Invalid parent index: " + std::to_string(parentIndex) + " to get child\n");
+            std::stringstream ss;
+            ss << "Invalid parent index: " << parentIndex << " to get child\n";
+            throw std::out_of_range(ss.str());
         }
         if (childRoll != 1 && childRoll != 2)
         {
-            throw std::out_of_range("Invalid child roll: " + std::to_string(childRoll) + " to get child\n");
+            std::stringstream ss;
+            ss << "Invalid child roll: " << childRoll << " to get child\n";
+            throw std::out_of_range(ss.str());
         }
         const auto childIndex = 2 * parentIndex + childRoll;
         if (childIndex >= m_container.size())
@@ -133,7 +146,9 @@ private:
     {
         if (index1 == index2)
         {
-            throw std::invalid_argument("1st Index: " + std::to_string(index1) + "2nd Index " + std::to_string(index2) + ": invalid for swapping\n");
+            std::stringstream ss;
+            ss << "1st Index: " << index1 << "2nd Index " << index2 << ": invalid for swapping\n";
+            throw std::out_of_range(ss.str());
         }
         auto temp = m_container[index1];
         m_container[index1] = m_container[index2];
@@ -209,11 +224,15 @@ private:
     {
         if (parentIndex < 0 || parentIndex >= m_container.size())
         {
-            throw std::out_of_range("Parent index: " + std::to_string(parentIndex) + " for bubble up");
+            std::stringstream ss;
+            ss << "Parent index: " << parentIndex << " for bubbling up\n";
+            throw std::out_of_range(ss.str());
         }
         if (childIndex < 0 || parentIndex >= m_container.size())
         {
-            throw std::out_of_range("Child index: " + std::to_string(parentIndex) + " for bubble up");
+            std::stringstream ss;
+            ss << "Child index: " << parentIndex << " for bubbling up\n";
+            throw std::out_of_range(ss.str());
         }
         auto childIdx = childIndex;
         auto parentIdx = parentIndex;
@@ -237,7 +256,9 @@ private:
     {
         if (parentIndex < 0 || parentIndex >= m_container.size())
         {
-            throw std::out_of_range("Parent index: " + std::to_string(parentIndex) + " for bubble down");
+            std::stringstream ss;
+            ss << "Parent index: " << parentIndex << " for bubbling down\n";
+            throw std::out_of_range(ss.str());
         }
         auto parentIdx = parentIndex;
         while (true)
