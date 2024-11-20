@@ -16,7 +16,7 @@ public:
 
     ~BinaryHeap() = default;
 
-    constexpr BinaryHeap<T, Compare> &operator=(const BinaryHeap<T, Compare> &rhs) noexcept
+    BinaryHeap<T, Compare> &operator=(const BinaryHeap<T, Compare> &rhs) noexcept
     {
         if (this == &rhs)
         {

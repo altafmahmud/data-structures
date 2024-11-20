@@ -6,9 +6,9 @@ class PriorityQueue
 public:
     constexpr PriorityQueue() = default;
 
-    PriorityQueue(const PriorityQueue &rhs) : m_binHeap(rhs.m_binHeap) {}
+    constexpr PriorityQueue(const PriorityQueue &rhs) : m_binHeap(rhs.m_binHeap) {}
 
-    PriorityQueue(PriorityQueue &&rhs) noexcept : m_binHeap(std::move(rhs.m_binHeap)) {}
+    constexpr PriorityQueue(PriorityQueue &&rhs) noexcept : m_binHeap(std::move(rhs.m_binHeap)) {}
 
     ~PriorityQueue() = default;
 
@@ -18,7 +18,7 @@ public:
         {
             return *this;
         }
-        this->m_binHeap = rhs.m_binHeap;
+        m_binHeap = rhs.m_binHeap;
         return *this;
     }
 
