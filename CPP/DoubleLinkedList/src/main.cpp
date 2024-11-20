@@ -209,10 +209,17 @@ int main()
         std::cerr << e.what() << '\n';
     }
 
+    std::cout << "\n";
     try
     {
         std::cout << "Iterating list:\n";
         for (auto iterator = linkedList.begin(); iterator != linkedList.end(); ++iterator)
+        {
+            std::cout << *iterator << ' ';
+        }
+        std::cout << "\n\n";
+        std::cout << "Iterating list in reverse:\n";
+        for (auto iterator = linkedList.end()-1; iterator != nullptr; --iterator)
         {
             std::cout << *iterator << ' ';
         }

@@ -2,6 +2,7 @@
 #include <type_traits>
 #include <iomanip>
 #include <sstream>
+#include <variant>
 
 namespace
 {
@@ -313,7 +314,7 @@ public:
         if (index >= size || index < 0)
         {
             throw std::out_of_range("The index out of range: " + std::to_string(index) + ", size of the list: " + std::to_string(size) + '\n');
-        }        
+        }
         if (index == 0)
         {
             return removeFirst();
@@ -511,7 +512,9 @@ public:
     class Iterator
     {
     public:
-        constexpr Iterator() noexcept : m_pCurrentNode(nullptr) {}
+        constexpr Iterator() noexcept : m_pLinkedList(nullptr), m_pCurrentNode(nullptr) {}
+
+        constexpr Iterator(LinkedList<T> *pLinkedList, Node<T> *pNode) noexcept : m_pLinkedList(pLinkedList), m_pCurrentNode(pNode) {}
 
         constexpr Iterator(Node<T> *pNode) noexcept : m_pCurrentNode(pNode) {}
 
@@ -523,6 +526,12 @@ public:
 
         Iterator &operator+(const unsigned offset)
         {
+            if (offset < 0)
+            {
+                std::stringstream ss;
+                ss << "Invalid offset: " << offset << '\n';
+                throw std::range_error(ss.str());
+            }            
             for (unsigned idx = 0; idx < offset; ++idx)
             {
                 if (m_pCurrentNode == nullptr)
@@ -530,6 +539,36 @@ public:
                     throw std::range_error("Access to an invalid object\n");
                 }
                 ++*this;
+            }
+            return *this;
+        }
+
+        Iterator &operator-(const int offset)
+        {
+            if (offset < 0)
+            {
+                std::stringstream ss;
+                ss << "Invalid offset: " << offset << '\n';
+                throw std::range_error(ss.str());
+            }
+            if (m_pLinkedList == nullptr)
+            {
+                throw std::bad_variant_access();
+            }
+            int idx = offset;
+            if (m_pCurrentNode == nullptr)
+            {
+                m_pCurrentNode = m_pLinkedList->last;
+                --idx;
+            }
+            while (idx > 0)
+            {
+                if (m_pCurrentNode == nullptr)
+                {
+                    throw std::range_error("Access to an invalid object\n");
+                }
+                --*this;
+                --idx;
             }
             return *this;
         }
@@ -544,6 +583,21 @@ public:
             return *this;
         }
 
+        Iterator &operator--()
+        {
+            if (m_pLinkedList == nullptr)
+            {
+                throw std::bad_variant_access();
+            }
+            if (m_pCurrentNode == nullptr)
+            {
+                m_pCurrentNode = m_pLinkedList->last;
+                return *this;
+            }
+            m_pCurrentNode = m_pCurrentNode->prev;
+            return *this;
+        }
+
         Iterator operator++(int)
         {
             if (m_pCurrentNode == nullptr)
@@ -555,9 +609,40 @@ public:
             return iterator;
         }
 
+        Iterator operator--(int)
+        {
+            if (m_pLinkedList == nullptr)
+            {
+                throw std::bad_variant_access();
+            }
+            auto iterator = *this;
+            if (m_pCurrentNode == nullptr)
+            {
+                m_pCurrentNode = m_pLinkedList->last;
+                return iterator;
+            }
+            --*this;
+            return iterator;
+        }
+
+        constexpr bool &operator==(const Iterator &iterator)
+        {
+            return m_pCurrentNode == iterator.m_pCurrentNode;
+        }
+
+        constexpr bool operator==(const Node<T> *pNode)
+        {
+            return m_pCurrentNode == pNode;
+        }
+
         constexpr bool operator!=(const Iterator &iterator)
         {
             return m_pCurrentNode != iterator.m_pCurrentNode;
+        }
+
+        constexpr bool operator!=(const Node<T> *pNode)
+        {
+            return m_pCurrentNode != pNode;
         }
 
         constexpr T &operator*()
@@ -567,15 +652,16 @@ public:
 
     private:
         Node<T> *m_pCurrentNode;
+        LinkedList<T> *m_pLinkedList;
     };
 
     constexpr Iterator begin() noexcept
     {
-        return Iterator(first);
+        return Iterator(this, first);
     }
 
     constexpr Iterator end() noexcept
     {
-        return Iterator(last->next);
+        return Iterator(this, last->next);
     }
 };
