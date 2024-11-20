@@ -532,7 +532,7 @@ public:
                 std::stringstream ss;
                 ss << "Invalid offset: " << offset << '\n';
                 throw std::range_error(ss.str());
-            }            
+            }
             for (unsigned idx = 0; idx < offset; ++idx)
             {
                 if (m_pCurrentNode == nullptr)

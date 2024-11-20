@@ -219,7 +219,7 @@ int main()
         }
         std::cout << "\n\n";
         std::cout << "Iterating list in reverse:\n";
-        for (auto iterator = linkedList.end()-1; iterator != nullptr; --iterator)
+        for (auto iterator = linkedList.end() - 1; iterator != nullptr; --iterator)
         {
             std::cout << *iterator << ' ';
         }
@@ -235,15 +235,14 @@ int main()
     *itr = 99.99;
     std::cout << "Current linked list after changing the first node value:\n"
               << linkedList << '\n';
-    
-    std::cout << "\n";
 
+    std::cout << "\n";
     std::cout << "Changing the 2nd last node value:\n";
-    itr = linkedList.end()-1;
+    itr = linkedList.end() - 1;
     itr--;
     *itr = 999.99;
     std::cout << "Current linked list after changing the 2nd last node value:\n"
-              << linkedList << '\n';              
+              << linkedList << '\n';
 
     std::cout << "Clearing the list:\n";
     linkedList.clear();
