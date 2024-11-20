@@ -231,10 +231,19 @@ int main()
     }
 
     std::cout << "Changing the first node value:\n";
-    auto itr_begin = linkedList.begin();
-    *itr_begin = 99.99;
+    auto itr = linkedList.begin();
+    *itr = 99.99;
     std::cout << "Current linked list after changing the first node value:\n"
               << linkedList << '\n';
+    
+    std::cout << "\n";
+
+    std::cout << "Changing the 2nd last node value:\n";
+    itr = linkedList.end()-1;
+    itr--;
+    *itr = 999.99;
+    std::cout << "Current linked list after changing the 2nd last node value:\n"
+              << linkedList << '\n';              
 
     std::cout << "Clearing the list:\n";
     linkedList.clear();
