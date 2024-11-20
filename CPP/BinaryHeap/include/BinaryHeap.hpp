@@ -16,7 +16,7 @@ public:
 
     ~BinaryHeap() = default;
 
-    constexpr BinaryHeap<T, Compare> &operator=(const BinaryHeap<T, Compare> &rhs) noexcept
+    BinaryHeap<T, Compare> &operator=(const BinaryHeap<T, Compare> &rhs) noexcept
     {
         if (this == &rhs)
         {
@@ -257,7 +257,7 @@ private:
         if (parentIndex < 0 || parentIndex >= m_container.size())
         {
             std::stringstream ss;
-            ss << "Parent index: " << parentIndex << " for bubble down\n";
+            ss << "Parent index: " << parentIndex << " for bubbling down\n";
             throw std::out_of_range(ss.str());
         }
         auto parentIdx = parentIndex;
