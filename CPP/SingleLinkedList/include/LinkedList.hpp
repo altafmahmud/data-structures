@@ -115,11 +115,15 @@ public:
     {
         if (index < 0)
         {
-            throw std::invalid_argument("Invalid argument for index: " + std::to_string(index) + "\n");
+            std::stringstream ss;
+            ss << "Invalid argument for index: " << index << '\n';
+            throw std::invalid_argument(ss.str());
         }
         if (index > size)
         {
-            throw std::invalid_argument("Invalid argument for index: " + std::to_string(index) + ", greater than size: " + std::to_string(size) + "\n");
+            std::stringstream ss;
+            ss << "Invalid argument for index: " << index << ", greater than size: " << size << '\n';
+            throw std::invalid_argument(ss.str());
         }
         if (index == 0)
         {
@@ -225,15 +229,21 @@ public:
     {
         if (isEmpty())
         {
-            throw std::runtime_error("This list is empty, unable to remove the item at position: " + std::to_string(index) + '\n');
+            std::stringstream ss;
+            ss << "This list is empty, unable to remove the item at position: " << index << '\n';
+            throw std::runtime_error(ss.str());
         }
         if (index < 0)
         {
-            throw std::runtime_error("Invalid index: " + std::to_string(index) + " to remove item\n");
+            std::stringstream ss;
+            ss << "Invalid index: " << index << " to remove item\n";
+            throw std::runtime_error(ss.str());
         }
         if (index >= size)
         {
-            throw std::runtime_error("Invalid index: " + std::to_string(index) + " to remove item, index must be in: [" + std::to_string(0) + '-' + std::to_string(size - 1) + "]\n");
+            std::stringstream ss;
+            ss << "Invalid index: " << index << " to remove item, index must be in: [" << 0 << '-' << size - 1 << "]\n";
+            throw std::runtime_error(ss.str());
         }
 
         if (index == 0)
@@ -294,11 +304,15 @@ public:
     {
         if (isEmpty())
         {
-            throw std::runtime_error("This list is empty, unable to get the item at position: " + std::to_string(index) + '\n');
+            std::stringstream ss;
+            ss << "This list is empty, unable to get the item at position: " << index << '\n';
+            throw std::runtime_error(ss.str());
         }
         if (index < 0 || index >= size)
         {
-            throw std::runtime_error("Invalid index: " + std::to_string(index) + " to get an item, index must be in: [" + std::to_string(0) + '-' + std::to_string(size - 1) + "]\n");
+            std::stringstream ss;
+            ss << "Invalid index: " << index << " to get an item, index must be in: [" << 0 << '-' << size - 1 << "]\n";
+            throw std::runtime_error(ss.str());
         }
 
         if (index == 0)
@@ -323,7 +337,9 @@ public:
     {
         if (k < 1)
         {
-            throw std::runtime_error("Invalid argument: " + std::to_string(k) + " to get an item, argument must be in: [" + std::to_string(1) + '-' + std::to_string(size) + "]\n");
+            std::stringstream ss;
+            ss << "Invalid argument: " << k << " to get an item, argument must be in: [" << 1 << '-' << size << "]\n";
+            throw std::runtime_error(ss.str());
         }
         if (isEmpty())
         {
