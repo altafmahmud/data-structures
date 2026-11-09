@@ -1,20 +1,49 @@
 #include "HuffmanCoding.hpp"
 
 #include <iostream>
+#include <algorithm>
 
 HuffmanCoding::~HuffmanCoding() {
+    std::cout << "Deleting Huffman tree...\n";
     delTree(root);
     root = nullptr;
     charFreq.clear();
     clearPq();
 }
 
-void HuffmanCoding::procStr(const std::string_view str) {
+std::vector<char> HuffmanCoding::procStr(const std::string_view str) {
+    std::vector<char> huffman_codes;
+    if (str.empty()) {
+        return huffman_codes;
+    }
     calFreq(str);
     fillUp();
     buildTree();
     findCodes(root, std::vector<char>());
-    printCodes();
+    for (const auto ch: str) {
+        const auto& code = codes[ch];
+        std::copy(code.cbegin(), code.cend(), std::back_inserter(huffman_codes));
+    }
+    return huffman_codes;
+}
+
+std::string HuffmanCoding::decode(const std::string_view codes) const {
+    auto node = root;
+    std::vector<char> decoded_vec;
+    for (const auto bit: codes) {
+        if (node->isLeaf()) {
+            const auto ch = static_cast<LeafNode*>(node)->ch;
+            decoded_vec.push_back(ch);
+            node = root;
+        }
+        node = (bit == '0') ? node->left : node->right;
+    }
+    if (node != nullptr && node->isLeaf()) {
+        const auto ch = static_cast<LeafNode*>(node)->ch;
+        decoded_vec.push_back(ch);
+    }
+    std::string decoded(decoded_vec.begin(), decoded_vec.end());
+    return decoded;
 }
 
 void HuffmanCoding::calFreq(const std::string_view str) noexcept {

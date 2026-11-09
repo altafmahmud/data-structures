@@ -41,6 +41,9 @@ struct CompareNode {
         if (node2 == nullptr) {
             return false;
         }
+
+        // counter intuitive: function returns TRUE pushes down towards the bottom of the queue,
+        // higher frequency node will be sent to the bottom of the queue
         return node1->freq > node2->freq;
     }
 };
@@ -51,14 +54,15 @@ public:
     HuffmanCoding(): root{nullptr} {}
     ~HuffmanCoding();
 
-    void procStr(const std::string_view str);
+    std::vector<char> procStr(const std::string_view str);
+    std::string decode(const std::string_view codes) const;
+    void printCodes() const;
 
 private:
     void calFreq(const std::string_view str) noexcept;
     void fillUp();
     void buildTree();
     void findCodes(Node* node, std::vector<char> codeVec);
-    void printCodes() const;
     void clearPq();
     void delTree(Node* node);
 
