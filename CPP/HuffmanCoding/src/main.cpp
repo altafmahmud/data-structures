@@ -3,12 +3,11 @@
 #include <iostream>
 #include <string>
 
-int main() {
+void execHuffmanCoding (const unsigned input_no, const std::string& message) {
+    std::cout << "Input " << input_no << ":\n";
     HuffmanCoding hc;
-    // std::string str_in("ABBCDBCCDAABBEEEBEAB");
-    std::string str_in("BA");
-    std::cout << "Input message: " << str_in << '\n';
-    const auto& huffman_codes = hc.procStr(str_in);
+    std::cout << "Input message: " << message << '\n';
+    const auto& huffman_codes = hc.procStr(message);
     std::cout << "Code table:\n";
     hc.printCodes();
     std::cout << "Encoded bits: ";
@@ -19,7 +18,13 @@ int main() {
     std::string h_code(huffman_codes.begin(), huffman_codes.end());
     const auto& decoded = hc.decode(h_code);
     std::cout << "Decoded message: " << decoded << '\n';
-    std::cout << ((str_in == decoded) ? "Passed" : "Failed");
+    std::cout << ((message == decoded) ? "Passed" : "Failed");
     std::cout << '\n';
+}
+
+int main () {
+    execHuffmanCoding(1, "AB");
+    std::cout << '\n';
+    execHuffmanCoding(2, "ABBCDBCCDAABBEEEBEAB");
     return 0;
 }
